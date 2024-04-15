@@ -2,16 +2,17 @@ import { Alert, GestureResponderEvent, View } from 'react-native';
 import { styles } from './styles';
 import { TextInput } from 'react-native-paper';
 import { InputProps, inputPadraoProps } from './types';
-import { Controller } from 'react-hook-form';
-import MaskInput, { Mask, Masks } from 'react-native-mask-input';
+import { Controller, ControllerRenderProps } from 'react-hook-form';
+import { mask } from 'react-native-mask-text';
 
 function InputPadrao(props: inputPadraoProps): React.JSX.Element {
     return (
         <TextInput
+            keyboardType={props.keyboardType}            
             mode={'flat'}
             label={props.label}
             value={props.field.value}
-            onChangeText={props.field.onChange}
+            onChangeText={props.onChange}
             secureTextEntry={props.password ?? false}
             right={props.icon != undefined && <TextInput.Icon icon={props.icon} onPress={props.onChangeIcon} />}
         />
@@ -19,14 +20,14 @@ function InputPadrao(props: inputPadraoProps): React.JSX.Element {
 }
 
 
-export function InputTexto(data: InputProps): React.JSX.Element {
+export function InputTexto(props: InputProps): React.JSX.Element {
     return (
         <Controller
-            name={data.name}
-            control={data.control}
+            name={props.name}
+            control={props.control}
             render={({ field }) => (
                 <View style={{ flex: 1 }}>
-                    <InputPadrao field={field} label={data.label} icon={data.icon} onChangeIcon={data.onChangeIcon} password={data.password} />
+                    <InputPadrao field={field} onChange={field.onChange} label={props.label} icon={props.icon} onChangeIcon={props.onChangeIcon} password={props.password} keyboardType='default' />
                 </View>
             )}
         />
@@ -34,30 +35,33 @@ export function InputTexto(data: InputProps): React.JSX.Element {
 }
 
 export function InputDataNascimento(props: InputProps): React.JSX.Element {
-
     return (
         <Controller
             name={props.name}
             control={props.control}
             render={({ field }) => (
                 <View style={{ flex: 1 }}>
-                    <TextInput
-                        render={propsRnder =>
-                            <MaskInput
-                                style={{paddingTop: 15, width: '100%', fontSize: 16}}
-                                placeholder={props.label}
-                                value={field.value}
-                                onChangeText={field.onChange}
-                                mask={Masks.DATE_DDMMYYYY}
-                            />
-                        }
-                    />
-
+                    <InputPadrao field={field} onChange={(e) => field.onChange(mask(e,"99/99/9999"))} label={props.label} icon={props.icon} onChangeIcon={props.onChangeIcon} password={props.password} keyboardType='numeric' />
                 </View>
             )}
         />
     )
 }
+
+export function InputCelular(props: InputProps): React.JSX.Element {
+    return (
+        <Controller
+            name={props.name}
+            control={props.control}
+            render={({ field }) => (
+                <View style={{ flex: 1 }}>
+                    <InputPadrao field={field} onChange={(e) => field.onChange(mask(e,"(99) 9 9999-9999"))} label={props.label} icon={props.icon} onChangeIcon={props.onChangeIcon} password={props.password} keyboardType={'numeric'} />
+                </View>
+            )}
+        />
+    )
+}
+
 
 
 

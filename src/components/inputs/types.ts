@@ -1,13 +1,14 @@
 import { Control, ControllerRenderProps, FieldValues } from "react-hook-form";
-import { GestureResponderEvent } from "react-native";
-import { Mask } from "react-native-mask-input";
+import { GestureResponderEvent, KeyboardTypeOptions } from "react-native";
 
 export type inputPadraoProps = {
     label: string,
     field: ControllerRenderProps,
     icon?: string;
     password?: boolean;
-    onChangeIcon?: (e: GestureResponderEvent) => void
+    onChangeIcon?: (e: GestureResponderEvent) => void,
+    onChange: (text: string) => void,
+    keyboardType: KeyboardTypeOptions,
 };
 
 
