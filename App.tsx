@@ -11,9 +11,6 @@ export default function App() {
         <Drawer.Screen
           name="Home"
           component={Home}
-          options={{
-            headerShown: false
-          }}
           />
       </Drawer.Navigator>
     </NavigationContainer>
