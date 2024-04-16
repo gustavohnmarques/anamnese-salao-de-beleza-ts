@@ -5,8 +5,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { CreateUser, Input } from './Types';
 import { object, string, number } from 'yup';
 import { styles } from './styles';
-import { useEffect } from 'react';
-import SQLite from 'react-native-sqlite-storage';
 
 
 export function RenderizarInputs(inputs: any): React.JSX.Element {
@@ -62,18 +60,6 @@ export default function Home(): React.JSX.Element {
     <InputTexto label='Endereço' name={'endereco'} control={control} />,
     <InputTexto label='Bairro' name={'bairro'} control={control} />,
   ];
-
-  useEffect(() => {
-    try {
-      SQLite.openDatabase({name : "anamnese.db", createFromLocation : 1}, (e: any) => {
-        console.log('sucesso', e)
-      },(e: any) => {
-        console.log('erro', e)
-      });
-    } catch (error) {
-      console.error(error)
-    }
-  }, [])
 
   return (
     <View style={styles.container}>
