@@ -1,73 +1,63 @@
 import { useState } from 'react';
 import { DATABASE_NAME } from '../../../config/Constants';
 import { ListaCorCabeloNatural } from './types';
-import { enablePromise, openDatabase } from 'react-native-sqlite-storage';
-
-enablePromise(true);
-
+import SQLite from 'react-native-sqlite-storage';
+import { Cadastro } from '../../../components/Configs/CorCabeloNatural/NovoItem';
 
 
-const connectToDatabase = async () => {
-    return openDatabase(
-        { name: DATABASE_NAME, createFromLocation: 1 },
-        () => { },
-        (error) => {
-            console.error(error)
-            throw Error("Could not connect to database")
-        }
-    )
-}
+const db = SQLite.openDatabase({ name: DATABASE_NAME, createFromLocation: 1 }, () => { }, () => { });
 
-export const getTableNames = async (): Promise<string[]> => {
+
+export async function getCoresCabeloNatural(FuncRetorno: Function) {
     try {
-        const db = openDatabase({ name: DATABASE_NAME, createFromLocation: 1 }, () => { }, () => { });
-        const tableNames: string[] = []
-        const results = await db.executeSql(
-            "SELECT * FROM cores_cabelo_natural"
-        ).then((res) => {
-            console.log(res)
+        db.transaction(function (tx) {
+            tx.executeSql(
+                'SELECT * FROM cores_cabelo_natural ORDER BY id DESC', [],
+                (tx, results) => {
+                    console.log(results.rows.length)
+                    let lista: ListaCorCabeloNatural[] = [];
+                    for (let i = 0; i < results.rows.length; ++i) {
+                        lista.push(results.rows.item(i));
+                    }
+                    console.log(lista);
+                    FuncRetorno(lista);
+                }
+            );
         });
-        // results?.forEach((result) => {
-        //     for (let index = 0; index < result.rows.length; index++) {
-        //         tableNames.push(result.rows.item(index))
-        //     }
-        // })
-        return tableNames
     } catch (error) {
-        console.error(error)
-        throw Error("Failed to get table names from database")
+        console.log(error)
     }
+
 }
 
-// export async function getCoresCabeloNatural() {
+export async function deleteCorCabeloNatural(id: Number) {
+    try {
+        db.transaction(function (tx) {
+            tx.executeSql(
+                'DELETE FROM cores_cabelo_natural WHERE id = ?', [id],
+                (tx, results) => {
+                    console.log(results)        
+                }
+            );
+        });
+    } catch (error) {
+        console.log(error)
+    }
 
-//     return new Promise(async (resolve, reject) => {
-//         const db = SQLite.openDatabase({ name: DATABASE_NAME, createFromLocation: 1 }, () => { }, () => { })
-//         db.transaction(
-//             (tx) => {
-//                 tx.executeSql("SELECT * FROM cores_cabelo_natural", [],
-//                     (tx, results) => {
-//                         let lista: ListaCorCabeloNatural[] = [];
-//                         for (let i = 0; i < results.rows.length; ++i) {
-//                             lista.push(results.rows.item(i));
-//                         }
-//                         resolve(lista);
-//                     },
-//                     function (error) {
-//                         reject(false);
-//                         throw new Error(
-//                             'Error: ' + error
-//                         );
-//                     });
-//             },
-//             function (error) {
-//                 reject(undefined);
-//                 throw new Error('error: ' + error.message);
-//             },
-//             function () {
-//                 console.log('ok');
-//             }
-//         )
-//     });
+}
 
-// }
+export async function novaCorCabeloNatural(props: Cadastro) {
+    try {
+        db.transaction(function (tx) {
+            tx.executeSql(
+                'INSERT INTO cores_cabelo_natural (descricao) VALUES (?)', [props.descricao],
+                (tx, results) => {
+                    console.log(results)        
+                }
+            );
+        });
+    } catch (error) {
+        console.log(error)
+    }
+
+}
