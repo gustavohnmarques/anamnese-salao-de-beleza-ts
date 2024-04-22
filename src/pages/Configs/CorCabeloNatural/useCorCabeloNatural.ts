@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { DATABASE_NAME } from '../../../config/Constants';
-import { ListaCorCabeloNatural } from './types';
+import { ListaCorCabeloNatural, atualizarCorCabeloNaturalProps } from './types';
 import SQLite from 'react-native-sqlite-storage';
 import { Cadastro } from '../../../components/Configs/CorCabeloNatural/NovoItem';
 
@@ -13,19 +13,17 @@ export async function getCoresCabeloNatural(FuncRetorno: Function) {
         db.transaction(function (tx) {
             tx.executeSql(
                 'SELECT * FROM cores_cabelo_natural ORDER BY id DESC', [],
-                (tx, results) => {
-                    console.log(results.rows.length)
+                (tx, results) => {                    
                     let lista: ListaCorCabeloNatural[] = [];
                     for (let i = 0; i < results.rows.length; ++i) {
                         lista.push(results.rows.item(i));
-                    }
-                    console.log(lista);
+                    }                    
                     FuncRetorno(lista);
                 }
             );
         });
     } catch (error) {
-        console.log(error)
+        console.error(error)
     }
 
 }
@@ -36,12 +34,12 @@ export async function deleteCorCabeloNatural(id: Number) {
             tx.executeSql(
                 'DELETE FROM cores_cabelo_natural WHERE id = ?', [id],
                 (tx, results) => {
-                    console.log(results)        
+                     
                 }
             );
         });
     } catch (error) {
-        console.log(error)
+        console.error(error)
     }
 
 }
@@ -52,12 +50,26 @@ export async function novaCorCabeloNatural(props: Cadastro) {
             tx.executeSql(
                 'INSERT INTO cores_cabelo_natural (descricao) VALUES (?)', [props.descricao.trim()],
                 (tx, results) => {
-                    console.log(results)        
+                    
                 }
             );
         });
     } catch (error) {
-        console.log(error)
+        console.error(error)
     }
+}
 
+export async function atualizarCorCabeloNatural(props: atualizarCorCabeloNaturalProps) {
+    try {
+        db.transaction(function (tx) {
+            tx.executeSql(
+                'UPDATE cores_cabelo_natural set descricao = ? WHERE id = ?', [props.descricao.trim(), props.id],
+                (tx, results) => {
+                       
+                }
+            );
+        });
+    } catch (error) {
+        console.error(error)
+    }
 }

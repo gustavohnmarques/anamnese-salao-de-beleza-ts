@@ -16,6 +16,7 @@ function InputPadrao(props: inputPadraoProps): React.JSX.Element {
             onChangeText={props.onChange}
             secureTextEntry={props.password ?? false}
             right={props.icon != undefined && <TextInput.Icon icon={props.icon} onPress={props.onChangeIcon} />}
+            ref={props.refInput}
         />
     )
 }
@@ -28,7 +29,7 @@ export function InputTexto(props: InputProps): React.JSX.Element {
             control={props.control}
             render={({ field }) => (
                 <View style={{ flex: 1 }}>
-                    <InputPadrao field={field} onChange={field.onChange} label={props.label} icon={props.icon} onChangeIcon={props.onChangeIcon} password={props.password} keyboardType='default' error={props.error ?? false} />
+                    <InputPadrao field={field} onChange={field.onChange} label={props.label} icon={props.icon} onChangeIcon={props.onChangeIcon} password={props.password} keyboardType='default' error={props.error ?? false} refInput={props.refInput} />
                 </View>
             )}
         />

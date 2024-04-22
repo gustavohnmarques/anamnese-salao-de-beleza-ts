@@ -1,5 +1,5 @@
 import { Control, ControllerRenderProps, FieldValues } from "react-hook-form";
-import { GestureResponderEvent, KeyboardTypeOptions } from "react-native";
+import { GestureResponderEvent, KeyboardTypeOptions, TextInput } from "react-native";
 
 export type inputPadraoProps = {
     label: string,
@@ -10,6 +10,7 @@ export type inputPadraoProps = {
     onChange: (text: string) => void,
     keyboardType: KeyboardTypeOptions,
     error?: boolean,
+    refInput?: React.RefObject<TextInput>,
 };
 
 
@@ -22,4 +23,5 @@ export type InputProps = {
     password?: boolean;
     onChangeIcon?: (e: GestureResponderEvent) => void,
     error?: boolean,
+    refInput?: React.RefObject<TextInput>,
 };

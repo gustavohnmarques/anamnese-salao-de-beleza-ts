@@ -8,9 +8,7 @@ import { styles } from './styles';
 
 
 export function RenderizarInputs(inputs: any): React.JSX.Element {
-
-  console.log('ta renderizando aqui')
-
+  
   function renderItem(item: any): React.JSX.Element {
     return item.item;
   }
