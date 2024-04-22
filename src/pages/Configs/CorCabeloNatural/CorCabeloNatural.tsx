@@ -35,6 +35,14 @@ export default function CorCabeloNatura(): React.JSX.Element {
     getCoresCabeloNatural(setListaCorCabelo);
   }
 
+  const novoItemJaExiste = (value: string) => {
+    const validacao = listaCorCabelo?.findIndex(item => item?.descricao == value.trim());    
+    if(validacao == undefined || validacao >= 0){
+      return false;
+    }
+    return true
+  }
+
 
   function renderItem(item: any): React.JSX.Element {
     console.log(item)
@@ -43,11 +51,11 @@ export default function CorCabeloNatura(): React.JSX.Element {
 
   return (
     <View style={styles.container}>
-      <NovoItem funcaoRetorno={handleNovoItem} />
-      <FlatList
+      <NovoItem funcaoRetorno={handleNovoItem} funcaoValidacao={novoItemJaExiste} />      
+      <FlatList        
         data={listaCorCabelo}
         renderItem={renderItem}
-        contentContainerStyle={{ gap: 15 }}
+        contentContainerStyle={{ gap: 15, paddingBottom: 20 }}        
       />
     </View>
   )

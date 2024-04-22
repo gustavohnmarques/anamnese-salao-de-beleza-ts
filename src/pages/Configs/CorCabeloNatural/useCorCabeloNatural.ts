@@ -50,7 +50,7 @@ export async function novaCorCabeloNatural(props: Cadastro) {
     try {
         db.transaction(function (tx) {
             tx.executeSql(
-                'INSERT INTO cores_cabelo_natural (descricao) VALUES (?)', [props.descricao],
+                'INSERT INTO cores_cabelo_natural (descricao) VALUES (?)', [props.descricao.trim()],
                 (tx, results) => {
                     console.log(results)        
                 }

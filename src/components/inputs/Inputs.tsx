@@ -8,6 +8,7 @@ import { mask } from 'react-native-mask-text';
 function InputPadrao(props: inputPadraoProps): React.JSX.Element {
     return (
         <TextInput
+            error={props.error}
             keyboardType={props.keyboardType}            
             mode={'flat'}
             label={props.label}
@@ -27,7 +28,7 @@ export function InputTexto(props: InputProps): React.JSX.Element {
             control={props.control}
             render={({ field }) => (
                 <View style={{ flex: 1 }}>
-                    <InputPadrao field={field} onChange={field.onChange} label={props.label} icon={props.icon} onChangeIcon={props.onChangeIcon} password={props.password} keyboardType='default' />
+                    <InputPadrao field={field} onChange={field.onChange} label={props.label} icon={props.icon} onChangeIcon={props.onChangeIcon} password={props.password} keyboardType='default' error={props.error ?? false} />
                 </View>
             )}
         />

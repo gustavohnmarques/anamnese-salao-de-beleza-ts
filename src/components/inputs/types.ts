@@ -9,6 +9,7 @@ export type inputPadraoProps = {
     onChangeIcon?: (e: GestureResponderEvent) => void,
     onChange: (text: string) => void,
     keyboardType: KeyboardTypeOptions,
+    error?: boolean,
 };
 
 
@@ -19,5 +20,6 @@ export type InputProps = {
     onChange?: (text: string) => void;
     icon?: string;
     password?: boolean;
-    onChangeIcon?: (e: GestureResponderEvent) => void,    
+    onChangeIcon?: (e: GestureResponderEvent) => void,
+    error?: boolean,
 };
