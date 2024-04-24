@@ -1,16 +1,27 @@
 import React from "react";
 import { Text, View, TouchableOpacity } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { StyleSheet, TextStyle, ViewStyle } from "react-native";
+import { StyleSheet, TextStyle, ViewStyle, Alert } from "react-native";
 
 export type CorCabeloNatualItemProps = {
     id: Number,
-    descricao: string,    
+    descricao: string,
     handleEdit: (id: Number) => void,
     handleDelete: (id: Number) => void,
 };
 
 export function CorCabeloNaturalItem(props: CorCabeloNatualItemProps): React.JSX.Element {
+
+    const confirmarExclusao = () => {
+        Alert.alert('Atenção!', `Deseja excluir ${props.descricao}?`, [
+            {
+                text: 'Cancelar',                
+                style: 'cancel',
+            },
+            { text: 'Sim, excluir', onPress: () => props.handleDelete(props.id) },
+        ]);
+    }
+
     return (
         <View style={styles.item}>
             <View style={styles.descricao}>
@@ -23,7 +34,7 @@ export function CorCabeloNaturalItem(props: CorCabeloNatualItemProps): React.JSX
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => props.handleDelete(props.id)} style={styles.itemAcao}>
+                <TouchableOpacity onPress={confirmarExclusao} style={styles.itemAcao}>
                     <View >
                         <Icon name="trash-o" size={26} color="#ff5f56" />
                     </View>
@@ -44,14 +55,14 @@ const styles = StyleSheet.create({
 
     descricao: {
         height: '100%',
-        width: '80%',        
+        width: '80%',
         justifyContent: 'center',
         paddingLeft: 15
     } as ViewStyle,
 
     acoes: {
         height: '100%',
-        width: '20%',        
+        width: '20%',
         flexDirection: 'row'
     } as ViewStyle,
 
