@@ -11,6 +11,7 @@ import { ListaCorCabeloNatural } from './types';
 import { CorCabeloNaturalItem } from '../../../components/Configs/CorCabeloNatural/CorCabeloNaturalItem';
 import NovoItem, {Cadastro} from '../../../components/Configs/CorCabeloNatural/NovoItem';
 import React from 'react';
+import Header from '../../../components/Header/Header';
 
 
 
@@ -71,6 +72,7 @@ export default function CorCabeloNatura(): React.JSX.Element {
 
   return (
     <View style={styles.container}>
+      <Header />
       <NovoItem funcaoRetorno={handleNovoItem} funcaoValidacao={novoItemJaExiste} valor={indexItemEditando != null ? listaCorCabelo[indexItemEditando]?.descricao ?? '' : ''} refInput={refInput} funcaoCancelar={cancelarEdicaoItem} />
       <FlatList        
         data={listaCorCabelo}
