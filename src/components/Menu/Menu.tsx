@@ -1,26 +1,19 @@
 import {
     View,
     Text,
-    ImageBackground,
-    Image,
     TouchableOpacity,
-    StyleSheet,
-    Switch,
-    Alert,
     FlatList,
-    ListRenderItem,
     ListRenderItemInfo,
-    ViewStyle,
-    TextStyle,
 } from "react-native";
 import { MenuItemProps } from './types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useState } from "react";
 import { DrawerContentComponentProps } from "@react-navigation/drawer";
+import { styles } from './styles'
 
 
 export default function Menu(props: DrawerContentComponentProps): React.JSX.Element {
-    
+
 
     const [indexExpandido, setIndexExpandido] = useState<number | null>(null);
 
@@ -30,8 +23,8 @@ export default function Menu(props: DrawerContentComponentProps): React.JSX.Elem
         {
             titulo: 'Configurações', icone: 'gear', filhos: [
                 { titulo: 'Cor cabelo natural', tela: 'CorCabelo' },
-                { titulo: 'Tipo de raiz', tela: 'CorCabelo'  },
-                { titulo: 'Curvatura cabelo natural', tela: 'CorCabelo'  },
+                { titulo: 'Tipo de raiz', tela: 'CorCabelo' },
+                { titulo: 'Curvatura cabelo natural', tela: 'CorCabelo' },
             ]
         },
     ]
@@ -70,7 +63,7 @@ export default function Menu(props: DrawerContentComponentProps): React.JSX.Elem
                     <View style={styles.menuItemFilho}>
                         <FlatList
                             data={item.filhos}
-                            renderItem={renderItem}                            
+                            renderItem={renderItem}
                         />
                     </View>
                 }
@@ -79,32 +72,9 @@ export default function Menu(props: DrawerContentComponentProps): React.JSX.Elem
         )
     }
 
-    function renderChildren({ item, index }: ListRenderItemInfo<MenuItemProps>): React.JSX.Element {
-        return (
-            <View style={styles.menuItemFilho}>
-                <Text style={styles.titulo}>{item.titulo}</Text>
-            </View>
-        )
-    }
 
     return (
         <View style={styles.container}>
-            {/* <DrawerContentScrollView {...props}>
-                <DrawerItemList {...props} />
-                <DrawerItem
-                    label="Help"
-                    onPress={() => Alert.alert('testando')}
-                />
-
-            </DrawerContentScrollView> */}
-            {/* <TouchableOpacity onPress={() => navigation.navigate('CorCabelo', { id: 0 })} style={styles.botao}>
-                <View >
-                    <Text>Aqui abrir</Text>
-                </View>
-            </TouchableOpacity> */}
-
-
-
             <FlatList
                 data={menuList}
                 renderItem={renderItem}
@@ -115,40 +85,3 @@ export default function Menu(props: DrawerContentComponentProps): React.JSX.Elem
 
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        width: '100%',
-        backgroundColor: '#f8f4f3',
-        paddingHorizontal: 20,
-    } as ViewStyle,
-
-    menu: {
-        borderRadius: 5,
-        alignItems: 'center',
-    } as ViewStyle,
-
-    menuItem: {
-        flex: 1,
-        height: 60,
-        flexDirection: 'row',
-        borderRadius: 5,
-        alignItems: 'center',
-    } as ViewStyle,
-
-    titulo: {
-        fontSize: 18,
-        color: '#402e28',
-        fontFamily: 'Roboto-Medium',
-        letterSpacing: 1.2,
-        paddingLeft: 15,
-        flex: 1,
-    } as TextStyle,
-
-    menuItemFilho: {
-        flex: 1,
-        width: '100%',
-        padding: 15
-    } as ViewStyle,
-});
