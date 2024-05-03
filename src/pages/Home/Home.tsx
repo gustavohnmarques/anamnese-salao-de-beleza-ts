@@ -4,7 +4,7 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CreateUser, Input } from './Types';
 import { object, string, number } from 'yup';
-import { styles } from './styles';
+import * as S from './styles';
 import Header from '../../components/Header/Header';
 
 
@@ -61,10 +61,8 @@ export default function Home(): React.JSX.Element {
   ];
 
   return (
-    <View style={styles.container}>
-      <Header />
-      {RenderizarInputs(listaFormulario)}
-      <Text>AQUI MEU DEUS</Text>
-    </View>
+    <S.Container>
+      <S.Title>Testando aqui</S.Title>
+    </S.Container>
   )
 }
