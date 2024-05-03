@@ -6,9 +6,11 @@ import { CreateUser, Input } from './Types';
 import { object, string, number } from 'yup';
 import * as S from './styles';
 import Header from '../../components/Header/Header';
+import { useTheme } from '../../contexts/theme';
 
 
 export function RenderizarInputs(inputs: any): React.JSX.Element {
+
   
   function renderItem(item: any): React.JSX.Element {
     return item.item;
@@ -27,6 +29,9 @@ export function RenderizarInputs(inputs: any): React.JSX.Element {
 }
 
 export default function Home(): React.JSX.Element {
+
+  const {handleChangeTheme} = useTheme();
+
   const formType = object({
     nome: string().min(5, 'Informe corretamente o nome.').required('Informe corretamente o nome.'),
     dataNascimento: string().min(10, 'Informe corretamente a data de nascimento.').required('Informe corretamente a data de nascimento.'),
@@ -63,6 +68,7 @@ export default function Home(): React.JSX.Element {
   return (
     <S.Container>
       <S.Title>Testando aqui</S.Title>
+      <Button title='Trocar' onPress={handleChangeTheme} />
     </S.Container>
   )
 }
