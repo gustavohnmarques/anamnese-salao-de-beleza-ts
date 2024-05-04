@@ -5,8 +5,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { CreateUser, Input } from './Types';
 import { object, string, number } from 'yup';
 import * as S from './styles';
-import Header from '../../components/Header/Header';
 import { useTheme } from '../../contexts/theme';
+import Header from '../../components/Header/Header';
 
 
 export function RenderizarInputs(inputs: any): React.JSX.Element {
@@ -67,8 +67,7 @@ export default function Home(): React.JSX.Element {
 
   return (
     <S.Container>
-      <S.Title>Testando aqui</S.Title>
-      <Button title='Trocar' onPress={handleChangeTheme} />
+        <Header />
     </S.Container>
   )
 }

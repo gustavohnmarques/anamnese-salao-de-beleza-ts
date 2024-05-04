@@ -9,9 +9,10 @@ import SQLite from 'react-native-sqlite-storage';
 import { atualizarCorCabeloNatural, deleteCorCabeloNatural, getCoresCabeloNatural, novaCorCabeloNatural } from './useCorCabeloNatural';
 import { ListaCorCabeloNatural } from './types';
 import { CorCabeloNaturalItem } from '../../../components/Configs/CorCabeloNatural/CorCabeloNaturalItem';
-import NovoItem, {Cadastro} from '../../../components/Configs/CorCabeloNatural/NovoItem';
+import NovoItem, { Cadastro } from '../../../components/Configs/CorCabeloNatural/NovoItem';
 import React from 'react';
 import Header from '../../../components/Header/Header';
+import * as S from './styles'
 
 
 
@@ -31,28 +32,28 @@ export default function CorCabeloNatura(): React.JSX.Element {
     setListaCorCabelo(listaCorCabelo?.filter(item => item.id != id));
   }
 
-  const handleEdit = (id: Number) => {        
+  const handleEdit = (id: Number) => {
     const item = listaCorCabelo.findIndex(item => item.id == id);
     setIndexItemEditando(item >= 0 ? item : null);
     refInput.current?.focus();
   }
 
-  const handleNovoItem = async (props: Cadastro) => {    
+  const handleNovoItem = async (props: Cadastro) => {
     //Verificar se algum item está sendo editado
-    if(indexItemEditando != null){
-      atualizarCorCabeloNatural({descricao: props.descricao, id: listaCorCabelo[indexItemEditando].id});
-    }else{
+    if (indexItemEditando != null) {
+      atualizarCorCabeloNatural({ descricao: props.descricao, id: listaCorCabelo[indexItemEditando].id });
+    } else {
       novaCorCabeloNatural(props);
-    }    
+    }
     getCoresCabeloNatural(setListaCorCabelo);
     cancelarEdicaoItem(); //Limpar item editado no momento
   }
 
   const novoItemJaExiste = (value: string) => {
-    const validacao = listaCorCabelo?.findIndex(item => item?.descricao == value.trim());    
-    if(validacao == undefined || validacao >= 0){
+    const validacao = listaCorCabelo?.findIndex(item => item?.descricao == value.trim());
+    if (validacao == undefined || validacao >= 0) {
       //Verificar se está editando e não validar com o mesmo item
-      if(indexItemEditando != null && validacao == indexItemEditando){
+      if (indexItemEditando != null && validacao == indexItemEditando) {
         return true;
       }
       return false;
@@ -66,19 +67,20 @@ export default function CorCabeloNatura(): React.JSX.Element {
     refInput.current?.blur();
   }
 
-  function renderItem(item: any): React.JSX.Element {    
+  function renderItem(item: any): React.JSX.Element {
     return <CorCabeloNaturalItem {...item.item} handleDelete={handleDelete} handleEdit={handleEdit} key={String(item.id)} />
   }
 
   return (
-    <View style={styles.container}>
+    <S.Container>
       <Header />
       <NovoItem funcaoRetorno={handleNovoItem} funcaoValidacao={novoItemJaExiste} valor={indexItemEditando != null ? listaCorCabelo[indexItemEditando]?.descricao ?? '' : ''} refInput={refInput} funcaoCancelar={cancelarEdicaoItem} />
-      <FlatList        
+      <FlatList
         data={listaCorCabelo}
         renderItem={renderItem}
-        contentContainerStyle={{ gap: 15, paddingBottom: 20 }}        
+        contentContainerStyle={{ gap: 15, paddingBottom: 20 }}
       />
-    </View>
+    </S.Container>
+
   )
 }

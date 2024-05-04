@@ -9,22 +9,26 @@ import { MenuItemProps } from './types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useState } from "react";
 import { DrawerContentComponentProps } from "@react-navigation/drawer";
-import { styles } from './styles'
+import * as S from './styles';
+import { useTheme } from "../../contexts/theme";
+import { Theme } from "../../templates/theme";
 
 
 export default function Menu(props: DrawerContentComponentProps): React.JSX.Element {
 
 
+    const { getTheme } = useTheme();
+
     const [indexExpandido, setIndexExpandido] = useState<number | null>(null);
 
 
     const menuList = [
-        { titulo: 'Home', icone: 'home', tela: 'Home' },
+        { titulo: 'Home', icone: 'home', tela: 'Home',  filho: false },
         {
-            titulo: 'Configurações', icone: 'gear', filhos: [
-                { titulo: 'Cor cabelo natural', tela: 'CorCabelo' },
-                { titulo: 'Tipo de raiz', tela: 'CorCabelo' },
-                { titulo: 'Curvatura cabelo natural', tela: 'CorCabelo' },
+            titulo: 'Configurações', icone: 'gear',  filho: false, filhos: [
+                { titulo: 'Cor cabelo natural', tela: 'CorCabelo', filho: true },
+                { titulo: 'Tipo de raiz', tela: 'CorCabelo', filho: true },
+                { titulo: 'Curvatura cabelo natural', tela: 'CorCabelo', filho: true },
             ]
         },
     ]
@@ -52,36 +56,34 @@ export default function Menu(props: DrawerContentComponentProps): React.JSX.Elem
 
     function renderItem({ item, index }: ListRenderItemInfo<MenuItemProps>): React.JSX.Element {
         return (
-            <TouchableOpacity style={[styles.menu, styleMenu(index)]} onPress={() => handleMenuSelecionado(item, index)}>
-                <View style={styles.menuItem}>
-                    {item.icone != undefined && <Icon name={item.icone} size={26} color="#7d6158" />}
-                    <Text style={styles.titulo}>{item.titulo}</Text>
-                    {possuiFilhos(item) && <Icon name={itemSelecionado(index) ? 'chevron-up' : 'chevron-down'} size={22} color="#7d6158" style={{ paddingRight: 10 }} />}
-                </View>
+            <S.Menu style={[styleMenu(index), {borderBottomWidth: item.filho ? 0 : 1}]} onPress={() => handleMenuSelecionado(item, index)}>
+                <S.MenuItem>
+                    {item.icone != undefined && <Icon name={item.icone} size={19} color={getTheme().colors.textColor} />}
+                    <S.Titulo>{item.titulo}</S.Titulo>
+                    {possuiFilhos(item) && <Icon name={itemSelecionado(index) ? 'chevron-up' : 'chevron-down'} size={18} color={getTheme().colors.textColor} style={{ paddingRight: 10 }} />}
+                </S.MenuItem>
 
                 {possuiFilhos(item) && itemSelecionado(index) &&
-                    <View style={styles.menuItemFilho}>
+                    <S.MenuItemFilho>
                         <FlatList
                             data={item.filhos}
                             renderItem={renderItem}
                         />
-                    </View>
+                    </S.MenuItemFilho>
                 }
-            </TouchableOpacity>
+            </S.Menu>
 
         )
     }
 
 
     return (
-        <View style={styles.container}>
+        <S.Container>
             <FlatList
                 data={menuList}
                 renderItem={renderItem}
-                contentContainerStyle={{ gap: 20, marginTop: 15 }}
+                contentContainerStyle={{ marginTop: 15 }}                
             />
-
-        </View>
-
+        </S.Container>
     )
 }

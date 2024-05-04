@@ -11,6 +11,7 @@ export type MenuItemProps = {
     titulo: string,
     icone?: string,
     tela?: string,
+    filho: boolean,
     filhos?: MenuItemProps[]
 }
 

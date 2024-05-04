@@ -1,10 +1,12 @@
 import React, {createContext, useContext, useState} from 'react';
+import theme from '../styles';
 
 export type Themes = "dark" | "light";
 
 type ThemeContextData = {
     currentTheme: Themes,
-    handleChangeTheme: () => void
+    handleChangeTheme: () => void,
+    getTheme: () => typeof theme.dark;
 }
 
 interface Props {
@@ -15,7 +17,7 @@ const ThemeContext = createContext<ThemeContextData>({} as ThemeContextData);
 
 export const ThemeProvider: React.FC<Props> = ({children}) => {
 
-    const [selectedTheme, setSelectedTheme] = useState<Themes>('dark')
+    const [selectedTheme, setSelectedTheme] = useState<Themes>('dark');    
 
     function handleChangeTheme(){
         if(selectedTheme === 'light'){
@@ -25,9 +27,14 @@ export const ThemeProvider: React.FC<Props> = ({children}) => {
         }
     }
 
+    function getTheme(){
+        return theme[selectedTheme];
+    }
+
     return <ThemeContext.Provider value={{
         currentTheme: selectedTheme,
         handleChangeTheme,
+        getTheme,
     }}>
         {children}
     </ThemeContext.Provider>
