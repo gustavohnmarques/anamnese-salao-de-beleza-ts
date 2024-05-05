@@ -9,6 +9,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useEffect, useState } from 'react';
 import { HelperText } from 'react-native-paper';
+import * as S from './styles'
 
 export type Cadastro = {
   descricao: string,
@@ -61,84 +62,37 @@ export default function NovoItem(props: NovoItem): React.JSX.Element {
   const cancelarEdicao = () => {
     reset();
     setEdicaoItem(false)
-    if(props.funcaoCancelar != undefined){
+    if (props.funcaoCancelar != undefined) {
       props.funcaoCancelar()
     }
   }
 
   return (
     <>
-      <View style={[styles.container, { height: errors?.descricao != undefined ? 100 : 80 }, { ...props.style }]}>
-        <View style={[styles.novoItem]}>
+      <S.Container style={[{ height: errors?.descricao != undefined ? 100 : 80 }, { ...props.style }]}>
+        <S.NovoItem>
           <InputTexto label='Descrição' name={'descricao'} control={control} error={errors.descricao != undefined} refInput={props.refInput} />
 
           {edicaoItem &&
-            <TouchableOpacity style={styles.containerBtnCancelar} onPress={cancelarEdicao}>
-              <View style={styles.btnCancelar}>
+            <S.ContainerBtnCancelar onPress={cancelarEdicao}>
+              <S.BtnCancelar>
                 <Icon name={'remove'} size={26} color="#fff" />
-              </View>
-            </TouchableOpacity>
+              </S.BtnCancelar>
+            </S.ContainerBtnCancelar>
           }
 
 
-          <TouchableOpacity style={styles.containerBtn} onPress={handleSubmit(handleCadastro)}>
-            <View style={styles.btnConfirmar}>
+          <S.ContainerBtnCancelar onPress={handleSubmit(handleCadastro)}>
+            <S.BtnConfirmar>
               <Icon name={edicaoItem ? 'check' : 'plus'} size={26} color="#fff" />
-            </View>
-          </TouchableOpacity>
-        </View>
+            </S.BtnConfirmar>
+          </S.ContainerBtnCancelar>
+        </S.NovoItem>
         {errors.descricao?.message && <HelperText type="error" visible={errors.descricao != undefined}>
           {errors.descricao?.message}
         </HelperText>}
-      </View>
+      </S.Container>
     </>
 
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-  } as ViewStyle,
-
-  novoItem: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    height: 65,
-
-  } as ViewStyle,
-
-  input: {
-    flexDirection: 'row',
-    flex: 1
-  } as ViewStyle,
-
-  containerBtn: {
-    width: 120,
-    height: '100%',
-    paddingLeft: 15,
-  } as ViewStyle,
-  
-  containerBtnCancelar: {
-    width: 70,
-    height: '100%',
-    paddingLeft: 15,
-  } as ViewStyle,
-
-  btnCancelar: {
-    height: 55,
-    backgroundColor: '#ff5f56',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-  } as ViewStyle,
-
-  btnConfirmar: {
-    height: 55,
-    backgroundColor: '#579d83',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-  } as ViewStyle,
-
-});

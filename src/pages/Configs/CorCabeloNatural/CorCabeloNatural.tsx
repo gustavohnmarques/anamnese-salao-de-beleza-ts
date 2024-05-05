@@ -3,13 +3,12 @@ import { InputCelular, InputDataNascimento, InputTexto } from '../../../componen
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { object, string, number } from 'yup';
-import { styles } from './styles';
 import { useEffect, useRef, useState } from 'react';
 import SQLite from 'react-native-sqlite-storage';
 import { atualizarCorCabeloNatural, deleteCorCabeloNatural, getCoresCabeloNatural, novaCorCabeloNatural } from './useCorCabeloNatural';
 import { ListaCorCabeloNatural } from './types';
 import { CorCabeloNaturalItem } from '../../../components/Configs/CorCabeloNatural/CorCabeloNaturalItem';
-import NovoItem, { Cadastro } from '../../../components/Configs/CorCabeloNatural/NovoItem';
+import NovoItem, { Cadastro } from '../../../components/Configs/NovoItem/NovoItem';
 import React from 'react';
 import Header from '../../../components/Header/Header';
 import * as S from './styles'

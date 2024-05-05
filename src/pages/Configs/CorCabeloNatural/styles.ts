@@ -1,17 +1,3 @@
-import { StyleSheet, ViewStyle } from "react-native";
-
-export const styles = StyleSheet.create({
-    container: {
-     
-    } as ViewStyle,
-
-    novoItem: {        
-        height: 150,
-        backgroundColor: 'red'
-    } as ViewStyle,
-    
-});
-
 import styled, { css } from "styled-components/native";
 
 export const Container = styled.View`    
