@@ -1,43 +1,5 @@
-import { StyleSheet, TextStyle, ViewStyle } from "react-native";
 import styled, { css } from "styled-components/native";
-
-// export const styles = StyleSheet.create({
-//     container: {
-//         flex: 1,
-//         width: '100%',
-//         backgroundColor: '#f8f4f3',
-//         paddingHorizontal: 20,
-//     } as ViewStyle,
-
-//     menu: {
-//         borderRadius: 5,
-//         alignItems: 'center',
-//     } as ViewStyle,
-
-//     menuItem: {
-//         flex: 1,
-//         height: 60,
-//         flexDirection: 'row',
-//         borderRadius: 5,
-//         alignItems: 'center',
-//     } as ViewStyle,
-
-//     titulo: {
-// fontSize: 18,
-// color: '#402e28',
-// fontFamily: 'Roboto-Medium',
-// letterSpacing: 1.2,
-// paddingLeft: 15,
-// flex: 1,
-//     } as TextStyle,
-
-//     menuItemFilho: {
-//         flex: 1,
-//         width: '100%',
-//         padding: 15
-//     } as ViewStyle,
-// });
-
+import { BlurView } from "@react-native-community/blur";
 
 export const Container = styled.View`    
     ${({ theme }) => css`
@@ -48,10 +10,14 @@ export const Container = styled.View`
 
 export const Menu = styled.TouchableOpacity`    
     ${({ theme }) => css`
-        border-radius: 5px;
+        border-radius: 8px;
         align-items: 'center';
-        margin: 0px 15px 0px 15px;        
-        border-bottom-color: #636363;
+        margin: 0px 15px 0px 15px;                
+        height: 60px;
+        flex: 1;
+        align-items: center;
+        padding-left: 15px;
+        flex-direction: row;
     `}
 `
 
