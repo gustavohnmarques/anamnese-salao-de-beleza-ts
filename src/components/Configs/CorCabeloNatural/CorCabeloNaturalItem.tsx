@@ -3,6 +3,7 @@ import { Text, View, TouchableOpacity } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { StyleSheet, TextStyle, ViewStyle, Alert } from "react-native";
 import * as S from './styles';
+import { useTheme } from "../../../contexts/theme";
 
 export type CorCabeloNatualItemProps = {
     id: Number,
@@ -12,6 +13,8 @@ export type CorCabeloNatualItemProps = {
 };
 
 export function CorCabeloNaturalItem(props: CorCabeloNatualItemProps): React.JSX.Element {
+
+    const {getTheme} = useTheme();
 
     const confirmarExclusao = () => {
         Alert.alert('Atenção!', `Deseja excluir ${props.descricao}?`, [
@@ -30,11 +33,11 @@ export function CorCabeloNaturalItem(props: CorCabeloNatualItemProps): React.JSX
             </S.Descricao>
             <S.Acoes>
                 <S.ItemAcao onPress={() => props.handleEdit(props.id)}>
-                    <Icon name="edit" size={26} color="#9d7cd9" />
+                    <Icon name="edit" size={26} color={getTheme().colors.primary500} />
                 </S.ItemAcao>
 
                 <S.ItemAcao onPress={confirmarExclusao}>
-                    <Icon name="trash-o" size={26} color="#ff5f56" />
+                    <Icon name="trash-o" size={26} color={getTheme().colors.danger200} />
                 </S.ItemAcao>
             </S.Acoes   >
         </S.Item>

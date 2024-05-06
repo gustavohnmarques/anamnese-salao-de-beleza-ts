@@ -5,7 +5,7 @@ export const Item = styled.View`
         height: 60px;
         width: 100%;
         border-radius: 5px;
-        background-color: #fff;
+        background-color: ${theme.colors.background200};
         flex-direction: row;
     `}
 `
@@ -37,7 +37,8 @@ export const ItemAcao = styled.TouchableOpacity`
 
 export const TextoDescricao = styled.Text`    
     ${({ theme }) => css`
-        color: #747474;
+        color: ${theme.colors.textColor};
         font-size: 18px;
+        font-weight: bold;
     `}
 `

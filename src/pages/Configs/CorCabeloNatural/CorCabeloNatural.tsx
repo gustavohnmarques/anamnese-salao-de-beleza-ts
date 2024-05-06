@@ -71,8 +71,7 @@ export default function CorCabeloNatura(): React.JSX.Element {
   }
 
   return (
-    <S.Container>
-      <Header />
+    <S.Container>      
       <NovoItem funcaoRetorno={handleNovoItem} funcaoValidacao={novoItemJaExiste} valor={indexItemEditando != null ? listaCorCabelo[indexItemEditando]?.descricao ?? '' : ''} refInput={refInput} funcaoCancelar={cancelarEdicaoItem} />
       <FlatList
         data={listaCorCabelo}

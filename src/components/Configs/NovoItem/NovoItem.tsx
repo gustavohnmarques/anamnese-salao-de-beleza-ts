@@ -10,6 +10,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { useEffect, useState } from 'react';
 import { HelperText } from 'react-native-paper';
 import * as S from './styles'
+import { useTheme } from '../../../contexts/theme';
 
 export type Cadastro = {
   descricao: string,
@@ -25,6 +26,8 @@ export type NovoItem = {
 };
 
 export default function NovoItem(props: NovoItem): React.JSX.Element {
+
+  const {getTheme} = useTheme();
 
   const [edicaoItem, setEdicaoItem] = useState<boolean>(false);
 
@@ -88,7 +91,7 @@ export default function NovoItem(props: NovoItem): React.JSX.Element {
             </S.BtnConfirmar>
           </S.ContainerBtnCancelar>
         </S.NovoItem>
-        {errors.descricao?.message && <HelperText type="error" visible={errors.descricao != undefined}>
+        {errors.descricao?.message && <HelperText type="error" visible={errors.descricao != undefined} style={{color: getTheme().colors.danger200 }}>
           {errors.descricao?.message}
         </HelperText>}
       </S.Container>
