@@ -12,12 +12,14 @@ import NovoItem, { Cadastro } from '../../../components/Configs/NovoItem/NovoIte
 import React from 'react';
 import Header from '../../../components/Header/Header';
 import * as S from './styles'
+import ListaVazia from '../../../components/Geral/ListaVazia/ListaVazia';
+import Skeleton from './componentes/Skeleton';
 
 
 
 export default function CorCabeloNatura(): React.JSX.Element {
 
-  const [listaCorCabelo, setListaCorCabelo] = useState<ListaCorCabeloNatural[]>([]);
+  const [listaCorCabelo, setListaCorCabelo] = useState<ListaCorCabeloNatural[] | null>(null);
   const [indexItemEditando, setIndexItemEditando] = useState<number | null>(null);
 
   const refInput = useRef<TextInput>(null);
@@ -28,11 +30,11 @@ export default function CorCabeloNatura(): React.JSX.Element {
 
   const handleDelete = async (id: Number) => {
     deleteCorCabeloNatural(id);
-    setListaCorCabelo(listaCorCabelo?.filter(item => item.id != id));
+    setListaCorCabelo(listaCorCabelo!?.filter(item => item.id != id));
   }
 
   const handleEdit = (id: Number) => {
-    const item = listaCorCabelo.findIndex(item => item.id == id);
+    const item = listaCorCabelo!.findIndex(item => item.id == id);
     setIndexItemEditando(item >= 0 ? item : null);
     refInput.current?.focus();
   }
@@ -40,7 +42,7 @@ export default function CorCabeloNatura(): React.JSX.Element {
   const handleNovoItem = async (props: Cadastro) => {
     //Verificar se algum item está sendo editado
     if (indexItemEditando != null) {
-      atualizarCorCabeloNatural({ descricao: props.descricao, id: listaCorCabelo[indexItemEditando].id });
+      atualizarCorCabeloNatural({ descricao: props.descricao, id: listaCorCabelo![indexItemEditando].id });
     } else {
       novaCorCabeloNatural(props);
     }
@@ -61,7 +63,6 @@ export default function CorCabeloNatura(): React.JSX.Element {
   }
 
   const cancelarEdicaoItem = () => {
-    console.log('chegou aqui')
     setIndexItemEditando(null); //Limpar item editado no momento
     refInput.current?.blur();
   }
@@ -71,13 +72,22 @@ export default function CorCabeloNatura(): React.JSX.Element {
   }
 
   return (
-    <S.Container>      
-      <NovoItem funcaoRetorno={handleNovoItem} funcaoValidacao={novoItemJaExiste} valor={indexItemEditando != null ? listaCorCabelo[indexItemEditando]?.descricao ?? '' : ''} refInput={refInput} funcaoCancelar={cancelarEdicaoItem} />
-      <FlatList
-        data={listaCorCabelo}
-        renderItem={renderItem}
-        contentContainerStyle={{ gap: 15, paddingBottom: 20 }}
-      />
+    <S.Container>
+      <NovoItem funcaoRetorno={handleNovoItem} funcaoValidacao={novoItemJaExiste} valor={indexItemEditando != null ? listaCorCabelo![indexItemEditando]?.descricao ?? '' : ''} refInput={refInput} funcaoCancelar={cancelarEdicaoItem} />
+
+      {listaCorCabelo == null ?
+        <Skeleton />
+        : listaCorCabelo.length > 0 ?
+          <FlatList
+            data={listaCorCabelo}
+            renderItem={renderItem}
+            contentContainerStyle={{ gap: 15, paddingBottom: 20 }}
+          />
+
+          :
+          <ListaVazia mensagem='Nenhuma cor de cabelo natural cadastrada' />
+      }
+
     </S.Container>
 
   )

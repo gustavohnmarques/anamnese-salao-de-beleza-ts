@@ -2,7 +2,7 @@ import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Home from "./pages/Home/Home";
 import Menu from "./components/Menu/Menu";
-import CorCabeloNatural from "./pages/Configs/CorCabeloNatural/CorCabeloNatural";
+import CorCabeloNatural from "./pages/Configuracoes/CorCabeloNatural/CorCabeloNatural";
 import { useTheme } from "./contexts/theme";
 const Drawer = createDrawerNavigator();
 

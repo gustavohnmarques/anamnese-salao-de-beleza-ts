@@ -8,9 +8,3 @@ export const Container = styled.View`
         padding-bottom: 30px;                
     `}
 `
-
-export const Title = styled.Text`    
-    ${({theme}) => css`        
-        color: ${theme.colors.textColor};
-    `}
-`

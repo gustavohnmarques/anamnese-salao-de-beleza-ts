@@ -4,8 +4,10 @@ import { TextInput } from 'react-native-paper';
 import { InputProps, inputPadraoProps } from './types';
 import { Controller, ControllerRenderProps } from 'react-hook-form';
 import { mask } from 'react-native-mask-text';
+import { useTheme } from '../../contexts/theme';
 
 function InputPadrao(props: inputPadraoProps): React.JSX.Element {
+    const {getTheme} = useTheme();
     return (
         <TextInput
             error={props.error}
@@ -17,6 +19,9 @@ function InputPadrao(props: inputPadraoProps): React.JSX.Element {
             secureTextEntry={props.password ?? false}
             right={props.icon != undefined && <TextInput.Icon icon={props.icon} onPress={props.onChangeIcon} />}
             ref={props.refInput}
+            activeUnderlineColor={getTheme().colors.background200}
+            textColor={getTheme().colors.background200}
+
         />
     )
 }
