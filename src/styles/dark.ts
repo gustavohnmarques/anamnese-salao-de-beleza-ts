@@ -29,5 +29,6 @@ export default {
         background600: '#8b8b8b',
 
         textColor: '#fff',
+        invertedTextColor: '#121212',
     }
 }

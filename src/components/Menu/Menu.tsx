@@ -17,7 +17,7 @@ export default function Menu(props: DrawerContentComponentProps): React.JSX.Elem
 
     const menuList = [
         { titulo: 'Home', icone: 'home', tela: 'Home' },
-        { titulo: 'Configurações', icone: 'gear', tela: 'CorCabelo'},
+        { titulo: 'Configurações', icone: 'gear', tela: 'Configuracoes'},
     ]
 
     const handleMenuSelecionado = (item: MenuItemProps, index: number) => {
