@@ -1,10 +1,5 @@
 import { Alert, Button, FlatList, Text, TextInput, View } from 'react-native';
-import { InputCelular, InputDataNascimento, InputTexto } from '../../../components/Inputs/Inputs';
-import { Controller, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { object, string, number } from 'yup';
 import { useEffect, useRef, useState } from 'react';
-import SQLite from 'react-native-sqlite-storage';
 import { atualizarCorCabeloNatural, deleteCorCabeloNatural, getCoresCabeloNatural, novaCorCabeloNatural } from './useCorCabeloNatural';
 import { ListaCorCabeloNatural } from './types';
 import { CorCabeloNaturalItem } from '../../../components/Configs/CorCabeloNatural/CorCabeloNaturalItem';

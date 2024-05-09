@@ -4,10 +4,13 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { useTheme } from '../../contexts/theme';
 import { FlatList, ListRenderItemInfo } from 'react-native';
 import { Props, PropsSubitem } from './types';
-import { DrawerContentComponentProps } from '@react-navigation/drawer/lib/typescript/src/types';
-
+import { DrawerContentComponentProps, DrawerNavigationHelpers } from '@react-navigation/drawer/lib/typescript/src/types';
+import { ParamListBase } from '@react-navigation/native';
+import {useNavigation} from "@react-navigation/native"
 
 export default function Configuracoes(): React.JSX.Element {
+
+  const navigation = useNavigation()
 
   const { getTheme } = useTheme();
   
@@ -86,8 +89,9 @@ export default function Configuracoes(): React.JSX.Element {
     )
   }
 
-  const handleClick = (tela: string) => {    
-    //navigation.navigate(tela);
+  const handleClick = (tela: string) => {            
+    //navigation.navigate()
+    //console.log(navigation.jum)
   }
 
 

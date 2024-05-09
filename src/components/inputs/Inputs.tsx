@@ -5,6 +5,7 @@ import { InputProps, inputPadraoProps } from './types';
 import { Controller, ControllerRenderProps } from 'react-hook-form';
 import { mask } from 'react-native-mask-text';
 import { useTheme } from '../../contexts/theme';
+import React from 'react';
 
 function InputPadrao(props: inputPadraoProps): React.JSX.Element {
     const {getTheme} = useTheme();

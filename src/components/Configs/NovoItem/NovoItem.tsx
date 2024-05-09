@@ -1,7 +1,6 @@
 
 import { TextInput, View } from 'react-native';
 import { StyleSheet, TextStyle, ViewStyle } from "react-native";
-import { InputTexto } from '../../Inputs/Inputs';
 import { object, string } from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -11,6 +10,8 @@ import { useEffect, useState } from 'react';
 import { HelperText } from 'react-native-paper';
 import * as S from './styles'
 import { useTheme } from '../../../contexts/theme';
+import React from 'react'
+import { InputTexto } from '../../inputs/Inputs';
 
 export type Cadastro = {
   descricao: string,

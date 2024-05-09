@@ -1,5 +1,5 @@
 import { Alert, Button, FlatList, Text, View } from 'react-native';
-import { InputCelular, InputDataNascimento, InputTexto } from '../../components/Inputs/Inputs';
+// import { InputCelular, InputDataNascimento, InputTexto } from '../../components/Inputs/Inputs';
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CreateUser, Input } from './Types';
@@ -7,6 +7,7 @@ import { object, string, number } from 'yup';
 import * as S from './styles';
 import { useTheme } from '../../contexts/theme';
 import Header from '../../components/Header/Header';
+import React from 'react';
 
 
 export function RenderizarInputs(inputs: any): React.JSX.Element {
@@ -55,15 +56,15 @@ export default function Home(): React.JSX.Element {
     },
   })
 
-  const listaFormulario = [
-    <InputTexto label='Nome' name={'nome'} control={control} />,
-    <InputDataNascimento label='Data de nascimento' name={'dataNascimento'} control={control} />,
-    <InputTexto label='E-mail' name={'email'} control={control} />,
-    <InputCelular label='Telefone' name={'telefone'} control={control} />,
-    <InputTexto label='Cidade' name={'cidade'} control={control} />,
-    <InputTexto label='Endereço' name={'endereco'} control={control} />,
-    <InputTexto label='Bairro' name={'bairro'} control={control} />,
-  ];
+  // const listaFormulario = [
+  //   <InputTexto label='Nome' name={'nome'} control={control} />,
+  //   <InputDataNascimento label='Data de nascimento' name={'dataNascimento'} control={control} />,
+  //   <InputTexto label='E-mail' name={'email'} control={control} />,
+  //   <InputCelular label='Telefone' name={'telefone'} control={control} />,
+  //   <InputTexto label='Cidade' name={'cidade'} control={control} />,
+  //   <InputTexto label='Endereço' name={'endereco'} control={control} />,
+  //   <InputTexto label='Bairro' name={'bairro'} control={control} />,
+  // ];
 
   return (
     <S.Container>
