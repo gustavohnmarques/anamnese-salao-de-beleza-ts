@@ -5,15 +5,16 @@ import { useTheme } from '../../contexts/theme';
 import { FlatList, ListRenderItemInfo } from 'react-native';
 import { Props, PropsSubitem } from './types';
 import { DrawerContentComponentProps, DrawerNavigationHelpers } from '@react-navigation/drawer/lib/typescript/src/types';
-import { ParamListBase } from '@react-navigation/native';
-import {useNavigation} from "@react-navigation/native"
+import { CommonActions, ParamListBase } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native"
+import Header from '../../components/Header/Header';
 
 export default function Configuracoes(): React.JSX.Element {
 
   const navigation = useNavigation()
 
   const { getTheme } = useTheme();
-  
+
   const menus = [
     {
       titulo: 'Plano',
@@ -41,12 +42,12 @@ export default function Configuracoes(): React.JSX.Element {
         {
           titulo: 'Cor de cabelo natural',
           subtitulo: '',
-          tela: ''
+          tela: 'CorCabeloNatural'
         },
         {
           titulo: 'Tipo de raiz',
           subtitulo: '',
-          tela: ''
+          tela: 'TipoRaiz'
         },
         {
           titulo: 'Curvatura do cabelo natural',
@@ -89,20 +90,24 @@ export default function Configuracoes(): React.JSX.Element {
     )
   }
 
-  const handleClick = (tela: string) => {            
-    //navigation.navigate()
+  const handleClick = (tela: string) => {
+    navigation.dispatch(CommonActions.navigate({ name: tela }));
     //console.log(navigation.jum)
   }
 
 
   return (
-    <S.Container>
-      <FlatList
-        data={menus}
-        renderItem={renderItem}
-        contentContainerStyle={{ marginTop: 15 }}
-      />
-    </S.Container>
+    <>
+      <Header tipo='menu' titulo='Configurações' />
+      <S.Container>
+        <FlatList
+          data={menus}
+          renderItem={renderItem}
+          contentContainerStyle={{ marginTop: 15 }}
+        />
+      </S.Container>
+    </>
+
 
   )
 }

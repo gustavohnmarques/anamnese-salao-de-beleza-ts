@@ -43,7 +43,7 @@ const AppStack = () => {
             <Drawer.Screen
                 name="Configuracoes"
                 component={StackConfiguracoes}
-                options={headerStyle}
+                options={{...headerStyle, headerShown: false }}
             />
         </Drawer.Navigator>
     );

@@ -1,15 +1,25 @@
-import { Text, View } from "react-native";
-import { styles } from "./styles";
+import React from 'react';
+import * as S from "./styles";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
-export default function Header(): React.JSX.Element {
+export type Tipos = "menu" | "voltar";
+
+export type Props = {
+    titulo: string,
+    tipo: Tipos,
+};
+
+
+export default function Header(props: Props): React.JSX.Element {
     const navigation = useNavigation();
     return (
-        <View style={styles.container}>
-            <TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
-                <Text>Menu</Text>
-            </TouchableOpacity>
-        </View>
+        <S.Container>            
+            <S.Menu onPress={() => props.tipo == 'menu' ? navigation.dispatch(DrawerActions.openDrawer()) :  navigation.goBack()}>
+                {props.tipo == 'menu' ? <S.Icone name='navicon' /> : <S.Icone name='chevron-left' />}
+            </S.Menu>
+            <S.ContainerTitulo>
+                <S.Titulo>{props.titulo}</S.Titulo>
+            </S.ContainerTitulo>
+        </S.Container>
     )
 }
