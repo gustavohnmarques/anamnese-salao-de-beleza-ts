@@ -4,7 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { object, string, number } from 'yup';
 import { useEffect, useRef, useState } from 'react';
 import SQLite from 'react-native-sqlite-storage';
-import { atualizarTipoRaiz,deleteTipoRaiz,getTipoRaiz,novoTipoRaiz } from './useTipoRaiz';
+import { atualizarTipoRaiz, deleteTipoRaiz, getTipoRaiz, novoTipoRaiz } from './useTipoRaiz';
 import { ListaTipoRaiz } from './types';
 import { CorCabeloNaturalItem } from '../../../components/Configs/CorCabeloNatural/CorCabeloNaturalItem';
 import NovoItem, { Cadastro } from '../../../components/Configs/NovoItem/NovoItem';
@@ -72,23 +72,27 @@ export default function TipoRaiz(): React.JSX.Element {
     }
 
     return (
-        <S.Container>
-            <NovoItem funcaoRetorno={handleNovoItem} funcaoValidacao={novoItemJaExiste} valor={indexItemEditando != null ? listaTipoRaiz![indexItemEditando]?.descricao ?? '' : ''} refInput={refInput} funcaoCancelar={cancelarEdicaoItem} />
+        <>
+            <Header tipo='voltar' titulo='Cadastro de tipo de raiz' />
+            <S.Container>
+                <NovoItem funcaoRetorno={handleNovoItem} funcaoValidacao={novoItemJaExiste} valor={indexItemEditando != null ? listaTipoRaiz![indexItemEditando]?.descricao ?? '' : ''} refInput={refInput} funcaoCancelar={cancelarEdicaoItem} />
 
-            {listaTipoRaiz == null ?
-                <Skeleton />
-                : listaTipoRaiz.length > 0 ?
-                    <FlatList
-                        data={listaTipoRaiz}
-                        renderItem={renderItem}
-                        contentContainerStyle={{ gap: 15, paddingBottom: 20 }}
-                    />
+                {listaTipoRaiz == null ?
+                    <Skeleton />
+                    : listaTipoRaiz.length > 0 ?
+                        <FlatList
+                            data={listaTipoRaiz}
+                            renderItem={renderItem}
+                            contentContainerStyle={{ gap: 15, paddingBottom: 20 }}
+                        />
 
-                    :
-                    <ListaVazia mensagem='Nenhum tipo de raiz cadastrado' />
-            }
+                        :
+                        <ListaVazia mensagem='Nenhum tipo de raiz cadastrado' />
+                }
 
-        </S.Container>
+            </S.Container>
+        </>
+
 
     )
 }

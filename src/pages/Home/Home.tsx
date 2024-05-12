@@ -68,7 +68,7 @@ export default function Home(): React.JSX.Element {
 
   return (
     <S.Container>
-        <Header />
+        <Header tipo='menu' titulo='Home' />
     </S.Container>
   )
 }

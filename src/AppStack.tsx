@@ -16,34 +16,24 @@ const Stack = createStackNavigator();
 const StackConfiguracoes = () => (
     <Stack.Navigator initialRouteName="Config">
         <Stack.Screen name="Config" options={{ headerShown: false }} component={Configuracoes} />
-        <Stack.Screen name="CorCabeloNatural" component={CorCabeloNatural}></Stack.Screen>
-        <Stack.Screen name="TipoRaiz" component={TipoRaiz}></Stack.Screen>
+        <Stack.Screen name="CorCabeloNatural" options={{ headerShown: false }} component={CorCabeloNatural}></Stack.Screen>
+        <Stack.Screen name="TipoRaiz" options={{ headerShown: false }} component={TipoRaiz}></Stack.Screen>
     </Stack.Navigator>
 )
 
 const AppStack = () => {
-
-    const { getTheme } = useTheme();
-
-    const headerStyle = {
-        headerStyle: {
-            backgroundColor: getTheme().colors.background100,
-        },
-        headerTintColor: getTheme().colors.textColor,
-
-    }
-
+    
     return (
         <Drawer.Navigator drawerContent={(props) => <Menu {...props} />}>
             <Drawer.Screen
                 name="Home"
                 component={Home}
-                options={headerStyle}
+                options={{ headerShown: false }}
             />
             <Drawer.Screen
                 name="Configuracoes"
                 component={StackConfiguracoes}
-                options={{...headerStyle, headerShown: false }}
+                options={{ headerShown: false }}
             />
         </Drawer.Navigator>
     );
