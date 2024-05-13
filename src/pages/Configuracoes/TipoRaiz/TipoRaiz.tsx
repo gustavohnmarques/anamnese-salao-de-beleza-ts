@@ -77,18 +77,22 @@ export default function TipoRaiz(): React.JSX.Element {
             <S.Container>
                 <NovoItem funcaoRetorno={handleNovoItem} funcaoValidacao={novoItemJaExiste} valor={indexItemEditando != null ? listaTipoRaiz![indexItemEditando]?.descricao ?? '' : ''} refInput={refInput} funcaoCancelar={cancelarEdicaoItem} />
 
-                {listaTipoRaiz == null ?
-                    <Skeleton />
-                    : listaTipoRaiz.length > 0 ?
-                        <FlatList
-                            data={listaTipoRaiz}
-                            renderItem={renderItem}
-                            contentContainerStyle={{ gap: 15, paddingBottom: 20 }}
-                        />
+                {listaTipoRaiz != null &&
+                    <>
+                        {
+                            listaTipoRaiz.length > 0 ?
+                                <FlatList
+                                    data={listaTipoRaiz}
+                                    renderItem={renderItem}
+                                    contentContainerStyle={{ gap: 15, paddingBottom: 20 }}
+                                />
 
-                        :
-                        <ListaVazia mensagem='Nenhum tipo de raiz cadastrado' />
+                                :
+                                <ListaVazia mensagem='Nenhum tipo de raiz cadastrado' />
+                        }
+                    </>
                 }
+
 
             </S.Container>
         </>
