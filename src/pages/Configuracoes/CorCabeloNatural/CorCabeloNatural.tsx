@@ -47,6 +47,7 @@ export default function CorCabeloNatura(): React.JSX.Element {
 
   const novoItemJaExiste = (value: string) => {
     const validacao = listaCorCabelo?.findIndex(item => item?.descricao == value.trim());
+    console.log('essa validação', validacao)
     if (validacao == undefined || validacao >= 0) {
       //Verificar se está editando e não validar com o mesmo item
       if (indexItemEditando != null && validacao == indexItemEditando) {

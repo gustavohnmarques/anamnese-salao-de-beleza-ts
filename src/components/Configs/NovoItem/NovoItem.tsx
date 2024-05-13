@@ -1,6 +1,6 @@
 
 import { TextInput, View } from 'react-native';
-import { StyleSheet, TextStyle, ViewStyle } from "react-native";
+import {  ViewStyle } from "react-native";
 import { object, string } from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -35,7 +35,7 @@ export default function NovoItem(props: NovoItem): React.JSX.Element {
   const formType = object({
     descricao: string().min(5, 'Informe uma descrição.').required('Informe uma descrição.').test('itemDuplicado', "A descrição informada já existe.", function (value) {
       //Verificar se existe função de validação
-      if (props.funcaoValidacao != undefined) {
+      if (props.funcaoValidacao != undefined) {        
         return props.funcaoValidacao(value);
       }
       return true;

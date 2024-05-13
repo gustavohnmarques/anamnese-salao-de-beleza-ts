@@ -1,5 +1,4 @@
 import { Alert, GestureResponderEvent, View } from 'react-native';
-import { styles } from './styles';
 import { TextInput } from 'react-native-paper';
 import { InputProps, inputPadraoProps } from './types';
 import { Controller, ControllerRenderProps } from 'react-hook-form';

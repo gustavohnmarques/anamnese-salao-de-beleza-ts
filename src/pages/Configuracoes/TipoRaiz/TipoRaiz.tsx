@@ -13,7 +13,6 @@ import Header from '../../../components/Header/Header';
 import * as S from './styles'
 import ListaVazia from '../../../components/Geral/ListaVazia/ListaVazia';
 import Skeleton from './componentes/Skeleton';
-import { novaCorCabeloNatural } from '../CorCabeloNatural/useCorCabeloNatural';
 
 
 
@@ -44,17 +43,17 @@ export default function TipoRaiz(): React.JSX.Element {
         if (indexItemEditando != null) {
             atualizarTipoRaiz({ descricao: props.descricao, id: listaTipoRaiz![indexItemEditando].id });
         } else {
-            novaCorCabeloNatural(props);
+            novoTipoRaiz(props);
         }
         getTipoRaiz(setListaTipoRaiz);
         cancelarEdicaoItem(); //Limpar item editado no momento
     }
 
     const novoItemJaExiste = (value: string) => {
-        const validacao = listaTipoRaiz?.findIndex(item => item?.descricao == value.trim());
+        const validacao = listaTipoRaiz?.findIndex(item => item?.descricao == value.trim());        
         if (validacao == undefined || validacao >= 0) {
             //Verificar se está editando e não validar com o mesmo item
-            if (indexItemEditando != null && validacao == indexItemEditando) {
+            if (indexItemEditando != null && validacao == indexItemEditando) {                
                 return true;
             }
             return false;

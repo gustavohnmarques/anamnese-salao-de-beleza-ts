@@ -18,7 +18,7 @@ export async function getTipoRaiz(FuncRetorno: Function) {
                     for (let i = 0; i < results.rows.length; ++i) {
                         lista.push(results.rows.item(i));
                     }
-                    console.log('lista aqu', lista)
+                    console.log('TA VCHEGANDO AQUI IO', lista)
                     FuncRetorno(lista);
                 }
             );
@@ -51,7 +51,9 @@ export async function novoTipoRaiz(props: Cadastro) {
             tx.executeSql(
                 'INSERT INTO tipo_raiz (descricao) VALUES (?)', [props.descricao.trim()],
                 (tx, results) => {
-
+                    console.log('sucesso')
+                }, (erro) => {
+                    console.log(erro)
                 }
             );
         });
