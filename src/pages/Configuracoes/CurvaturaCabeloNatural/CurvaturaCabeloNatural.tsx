@@ -1,35 +1,35 @@
-import { Alert, Button, FlatList, Text, TextInput, View } from 'react-native';
+import { TextInput } from 'react-native';
 import { useEffect, useRef, useState } from 'react';
-import { atualizarCorCabeloNatural, deleteCorCabeloNatural, getCoresCabeloNatural, novaCorCabeloNatural } from './useCorCabeloNatural';
-import { ListaCorCabeloNatural } from './types';
+import { atualizarCurvaturaCabeloNatural, deleteCurvaturaCabeloNatural, getCurvaturaCabeloNatural, novaCurvaturaCabeloNatural} from './useCurvaturaCabeloNatural';
+import { ListaCurvaturaCabeloNatural } from './types';
 import { CorCabeloNaturalItem } from '../../../components/Configs/CorCabeloNatural/CorCabeloNaturalItem';
 import NovoItem, { Cadastro } from '../../../components/Configs/NovoItem/NovoItem';
 import React from 'react';
 import Header from '../../../components/Header/Header';
 import * as S from './styles'
 import ListaVazia from '../../../components/Geral/ListaVazia/ListaVazia';
-import Skeleton from './componentes/Skeleton';
+import { FlatList } from 'react-native-gesture-handler';
 
 
 
-export default function CorCabeloNatural(): React.JSX.Element {
+export default function CurvaturaCabeloNatural(): React.JSX.Element {
 
-  const [listaCorCabelo, setListaCorCabelo] = useState<ListaCorCabeloNatural[] | null>(null);
+  const [listaCurvaturaCabeloNatural, setListaCurvaturaCabeloNatural] = useState<ListaCurvaturaCabeloNatural[] | null>(null);
   const [indexItemEditando, setIndexItemEditando] = useState<number | null>(null);
 
   const refInput = useRef<TextInput>(null);
 
   useEffect(() => {
-    getCoresCabeloNatural(setListaCorCabelo);
+    getCurvaturaCabeloNatural(setListaCurvaturaCabeloNatural);
   }, [])
 
   const handleDelete = async (id: Number) => {
-    deleteCorCabeloNatural(id);
-    setListaCorCabelo(listaCorCabelo!?.filter(item => item.id != id));
+    deleteCurvaturaCabeloNatural(id);
+    setListaCurvaturaCabeloNatural(listaCurvaturaCabeloNatural!?.filter(item => item.id != id));
   }
 
   const handleEdit = (id: Number) => {
-    const item = listaCorCabelo!.findIndex(item => item.id == id);
+    const item = listaCurvaturaCabeloNatural!.findIndex(item => item.id == id);
     setIndexItemEditando(item >= 0 ? item : null);
     refInput.current?.focus();
   }
@@ -37,16 +37,16 @@ export default function CorCabeloNatural(): React.JSX.Element {
   const handleNovoItem = async (props: Cadastro) => {
     //Verificar se algum item está sendo editado
     if (indexItemEditando != null) {
-      atualizarCorCabeloNatural({ descricao: props.descricao, id: listaCorCabelo![indexItemEditando].id });
+      atualizarCurvaturaCabeloNatural({ descricao: props.descricao, id: listaCurvaturaCabeloNatural![indexItemEditando].id });
     } else {
-      novaCorCabeloNatural(props);
+      novaCurvaturaCabeloNatural(props);
     }
-    getCoresCabeloNatural(setListaCorCabelo);
+    getCurvaturaCabeloNatural(setListaCurvaturaCabeloNatural);
     cancelarEdicaoItem(); //Limpar item editado no momento
   }
 
   const novoItemJaExiste = (value: string) => {
-    const validacao = listaCorCabelo?.findIndex(item => item?.descricao == value.trim());
+    const validacao = listaCurvaturaCabeloNatural?.findIndex(item => item?.descricao == value.trim());
     console.log('essa validação', validacao)
     if (validacao == undefined || validacao >= 0) {
       //Verificar se está editando e não validar com o mesmo item
@@ -69,20 +69,20 @@ export default function CorCabeloNatural(): React.JSX.Element {
 
   return (
     <>
-      <Header tipo='voltar' titulo='Cadastro de cor de cabelo natural' />
+      <Header tipo='voltar' titulo='Cadastro curvatura de cabelo natural' />
       <S.Container>
-        <NovoItem funcaoRetorno={handleNovoItem} funcaoValidacao={novoItemJaExiste} valor={indexItemEditando != null ? listaCorCabelo![indexItemEditando]?.descricao ?? '' : ''} refInput={refInput} funcaoCancelar={cancelarEdicaoItem} />
+        <NovoItem funcaoRetorno={handleNovoItem} funcaoValidacao={novoItemJaExiste} valor={indexItemEditando != null ? listaCurvaturaCabeloNatural![indexItemEditando]?.descricao ?? '' : ''} refInput={refInput} funcaoCancelar={cancelarEdicaoItem} />
 
-        {listaCorCabelo != null &&
+        {listaCurvaturaCabeloNatural != null &&
           <>
-            {listaCorCabelo.length > 0 ?
+            {listaCurvaturaCabeloNatural.length > 0 ?
               <FlatList
-                data={listaCorCabelo}
+                data={listaCurvaturaCabeloNatural}
                 renderItem={renderItem}
                 contentContainerStyle={{ gap: 15, paddingBottom: 20 }}
               />
               :
-              <ListaVazia mensagem='Nenhuma cor de cabelo natural cadastrada' />
+              <ListaVazia mensagem='Nenhuma curvatura de cabelo natural cadastrada' />
             }
           </>
         }

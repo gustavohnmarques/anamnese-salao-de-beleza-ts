@@ -7,6 +7,7 @@ import Menu from "./components/Menu/Menu";
 import Configuracoes from "./pages/Configuracoes/Configuracoes";
 import CorCabeloNatural from "./pages/Configuracoes/CorCabeloNatural/CorCabeloNatural";
 import TipoRaiz from "./pages/Configuracoes/TipoRaiz/TipoRaiz";
+import CurvaturaCabeloNatural from "./pages/Configuracoes/CurvaturaCabeloNatural/CurvaturaCabeloNatural";
 
 import { useTheme } from "./contexts/theme";
 
@@ -18,6 +19,7 @@ const StackConfiguracoes = () => (
         <Stack.Screen name="Config" options={{ headerShown: false }} component={Configuracoes} />
         <Stack.Screen name="CorCabeloNatural" options={{ headerShown: false }} component={CorCabeloNatural}></Stack.Screen>
         <Stack.Screen name="TipoRaiz" options={{ headerShown: false }} component={TipoRaiz}></Stack.Screen>
+        <Stack.Screen name="CurvaturaCabeloNatural" options={{ headerShown: false }} component={CurvaturaCabeloNatural}></Stack.Screen>
     </Stack.Navigator>
 )
 

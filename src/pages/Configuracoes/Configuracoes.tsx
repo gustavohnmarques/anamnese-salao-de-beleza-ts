@@ -52,7 +52,7 @@ export default function Configuracoes(): React.JSX.Element {
         {
           titulo: 'Curvatura do cabelo natural',
           subtitulo: '',
-          tela: ''
+          tela: 'CurvaturaCabeloNatural'
         },
         {
           titulo: 'Alergia',
