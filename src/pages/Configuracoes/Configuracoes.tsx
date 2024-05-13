@@ -57,7 +57,7 @@ export default function Configuracoes(): React.JSX.Element {
         {
           titulo: 'Alergia',
           subtitulo: '',
-          tela: ''
+          tela: 'Alergia'
         },
       ],
     }
