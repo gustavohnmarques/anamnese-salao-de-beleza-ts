@@ -8,7 +8,7 @@ export default {
         primary500: '#a688fa',
         primary600: '#ba9ffb',
 
-        danger100: 'rgba(255, 116, 103, 1)',
+        danger100: 'rgba(255, 87, 51, 1)',
         danger200: '#ff7467',
         danger300: '#ff8779',
         danger400: '#ff998b',

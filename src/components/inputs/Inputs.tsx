@@ -1,5 +1,5 @@
 import { Alert, GestureResponderEvent, View } from 'react-native';
-import { TextInput } from 'react-native-paper';
+import { TextInput, DefaultTheme } from 'react-native-paper';
 import { InputProps, inputPadraoProps } from './types';
 import { Controller, ControllerRenderProps } from 'react-hook-form';
 import { mask } from 'react-native-mask-text';
@@ -20,7 +20,14 @@ function InputPadrao(props: inputPadraoProps): React.JSX.Element {
             right={props.icon != undefined && <TextInput.Icon icon={props.icon} onPress={props.onChangeIcon} />}
             ref={props.refInput}
             activeUnderlineColor={getTheme().colors.background200}
-            textoPrimario={getTheme().colors.background200}
+            textColor={getTheme().colors.background200}
+            theme={{
+                ...DefaultTheme,
+                colors: {
+                    ...DefaultTheme.colors,
+                    error: getTheme().colors.danger100,
+                }                
+            }}
 
         />
     )

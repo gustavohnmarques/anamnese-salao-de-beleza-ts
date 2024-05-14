@@ -92,7 +92,7 @@ export default function NovoItem(props: NovoItem): React.JSX.Element {
             </S.BtnConfirmar>
           </S.ContainerBtnCancelar>
         </S.NovoItem>
-        {errors.descricao?.message && <HelperText type="error" visible={errors.descricao != undefined} style={{color: getTheme().colors.danger200 }}>
+        {errors.descricao?.message && <HelperText type="error" visible={errors.descricao != undefined} style={{color: getTheme().colors.danger100 }}>
           {errors.descricao?.message}
         </HelperText>}
       </S.Container>
