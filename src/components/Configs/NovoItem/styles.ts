@@ -40,7 +40,7 @@ export const ContainerBtnCancelar = styled.TouchableOpacity`
 export const BtnCancelar = styled.View`    
     ${({ theme }) => css`        
         height: 55px;
-        background-color: ${theme.colors.danger200};
+        background-color: ${theme.colors.danger100};
         justify-content: center;
         align-items: center;
         border-radius: 5px;
