@@ -33,11 +33,11 @@ export function CorCabeloNaturalItem(props: CorCabeloNatualItemProps): React.JSX
             </S.Descricao>
             <S.Acoes>
                 <S.ItemAcao onPress={() => props.handleEdit(props.id)}>
-                    <Icon name="edit" size={26} color={getTheme().colors.primary500} />
+                    <Icon name="edit" size={26} color={getTheme().colors.primary100} />
                 </S.ItemAcao>
 
                 <S.ItemAcao onPress={confirmarExclusao}>
-                    <Icon name="trash-o" size={26} color={getTheme().colors.danger200} />
+                    <Icon name="trash-o" size={26} color={getTheme().colors.danger100} />
                 </S.ItemAcao>
             </S.Acoes   >
         </S.Item>

@@ -1,13 +1,14 @@
 export default {
-    colors: {
-        primary100: '#382bf0',
+    tipo: 'dark',
+    colors: {        
+        primary100: 'rgba(166, 136, 250, 1)',
         primary200: '#5e43f3',
         primary300: '#7a5af5',
         primary400: '#9171f8',
         primary500: '#a688fa',
         primary600: '#ba9ffb',
 
-        danger100: '#ff5f56',
+        danger100: 'rgba(255, 95, 86, 1)',
         danger200: '#ff7467',
         danger300: '#ff8779',
         danger400: '#ff998b',
@@ -45,5 +46,8 @@ export default {
         //Switch tema
         fundoSwitchTema: '#373354',
         iconeSwitchTema: '#373354',
+
+        //Cards
+        fundoCard: 'rgba(87, 87, 87, 1)'
     }
 }

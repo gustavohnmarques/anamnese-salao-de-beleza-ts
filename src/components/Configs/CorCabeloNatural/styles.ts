@@ -5,7 +5,7 @@ export const Item = styled.View`
         height: 60px;
         width: 100%;
         border-radius: 5px;
-        background-color: ${theme.colors.background200};
+        background-color: ${theme.colors.fundoCard};
         flex-direction: row;
     `}
 `
@@ -40,5 +40,6 @@ export const TextoDescricao = styled.Text`
         color: ${theme.colors.textoPrimario};
         font-size: 18px;
         font-weight: bold;
+        opacity: ${theme.tipo = 'dark' ? 1 : 0.8}
     `}
 `
