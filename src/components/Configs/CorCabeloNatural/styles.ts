@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components/native";
+import { TamanhoFonte } from "../../../utils/TamanhoFonte";
 
 export const Item = styled.View`    
     ${({ theme }) => css`
@@ -37,9 +38,11 @@ export const ItemAcao = styled.TouchableOpacity`
 
 export const TextoDescricao = styled.Text`    
     ${({ theme }) => css`
+        font-size: ${TamanhoFonte(1.7)};
         color: ${theme.colors.textoPrimario};
-        font-size: 18px;
-        font-weight: bold;
-        opacity: ${theme.tipo = 'dark' ? 1 : 0.8}
+        font-family: 'Roboto-Bold';
+        letter-spacing: 1.2px;
+        padding-left: 5px;                    
+        opacity: 0.9;
     `}
 `
