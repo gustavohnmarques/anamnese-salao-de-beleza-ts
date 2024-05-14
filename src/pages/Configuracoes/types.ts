@@ -1,7 +1,7 @@
 export type PropsSubitem = {    
     titulo: string,
     subtitulo: string,
-    tela: string,
+    tela: string,    
 }
   
 export type Props = {    

@@ -10,7 +10,7 @@ export const Container = styled.View`
 export const Mensagem = styled.Text`    
     ${({theme}) => css`        
         font-size: 17px;
-        color: ${theme.colors.textColor};
+        color: ${theme.colors.textoPrimario};
         font-family: 'Roboto-Medium';
         letter-spacing: 1.2px;                
     `}

@@ -22,7 +22,7 @@ export default function Configuracoes(): React.JSX.Element {
         {
           titulo: 'Alterar plano',
           subtitulo: 'Gratuito',
-          tela: ''
+          tela: '',          
         }
       ],
     },
@@ -63,13 +63,14 @@ export default function Configuracoes(): React.JSX.Element {
     }
   ]
 
-  function renderSubItem({ item, index }: ListRenderItemInfo<PropsSubitem>): React.JSX.Element {
+  function renderSubItem({ item, index }: ListRenderItemInfo<PropsSubitem>, qntElementos?: number): React.JSX.Element {
+    console.log(item.titulo, qntElementos)
     return (
-      <S.Item onPress={() => handleClick(item.tela)}>
+      <S.Item onPress={() => handleClick(item.tela)} style={{borderBottomWidth: qntElementos! == 1 ? 0 : 1}}>
         <S.TituloItem>{item.titulo}</S.TituloItem>
         <S.ItemAcao>
           <S.SubTituloItem>{item.subtitulo}</S.SubTituloItem>
-          <Icon name={'chevron-right'} size={21} color={getTheme().colors.textColor} style={{ opacity: 0.6 }} />
+          <Icon name={'chevron-right'} size={21} color={getTheme().colors.textoPrimario} style={{ opacity: 0.6 }} />
         </S.ItemAcao>
       </S.Item>
     )
@@ -82,7 +83,7 @@ export default function Configuracoes(): React.JSX.Element {
         <S.ContainerItem>
           <FlatList
             data={item.itens}
-            renderItem={renderSubItem}
+            renderItem={(i) => renderSubItem(i, item.itens.length)}
             contentContainerStyle={{ marginTop: 15 }}
           />
         </S.ContainerItem>

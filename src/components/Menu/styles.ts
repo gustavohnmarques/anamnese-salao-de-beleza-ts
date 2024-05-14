@@ -4,7 +4,7 @@ import { BlurView } from "@react-native-community/blur";
 export const Container = styled.View`    
     ${({ theme }) => css`
         flex: 1;
-        background-color: ${theme.colors.background300};
+        background-color: ${theme.colors.fundoMenu};
     `}
 `
 
@@ -23,7 +23,7 @@ export const Menu = styled.TouchableOpacity`
 
 export const MenuItem = styled.View`
     ${({ theme }) => css`        
-        color: ${theme.colors.textColor};
+        color: ${theme.colors.textoPrimario};
         flex: 1;
         height: 60px;        
         flex-direction: row;
@@ -36,7 +36,7 @@ export const MenuItem = styled.View`
 export const Titulo = styled.Text`    
     ${({ theme }) => css`        
         font-size: 15px;
-        color: ${theme.colors.textColor};
+        color: ${theme.colors.textoMenu};
         font-family: 'Roboto-Medium';
         letter-spacing: 1.2px;
         padding-left: 15px;

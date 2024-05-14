@@ -37,7 +37,7 @@ export const ItemAcao = styled.TouchableOpacity`
 
 export const TextoDescricao = styled.Text`    
     ${({ theme }) => css`
-        color: ${theme.colors.textColor};
+        color: ${theme.colors.textoPrimario};
         font-size: 18px;
         font-weight: bold;
     `}

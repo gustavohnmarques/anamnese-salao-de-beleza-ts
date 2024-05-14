@@ -20,7 +20,7 @@ function InputPadrao(props: inputPadraoProps): React.JSX.Element {
             right={props.icon != undefined && <TextInput.Icon icon={props.icon} onPress={props.onChangeIcon} />}
             ref={props.refInput}
             activeUnderlineColor={getTheme().colors.background200}
-            textColor={getTheme().colors.background200}
+            textoPrimario={getTheme().colors.background200}
 
         />
     )

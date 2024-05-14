@@ -6,8 +6,6 @@ import { DrawerContentComponentProps } from "@react-navigation/drawer";
 import * as S from './styles';
 import { useTheme } from "../../contexts/theme";
 
-
-
 export default function Menu(props: DrawerContentComponentProps): React.JSX.Element {
 
 
@@ -36,8 +34,8 @@ export default function Menu(props: DrawerContentComponentProps): React.JSX.Elem
     function renderItem({ item, index }: ListRenderItemInfo<MenuItemProps>): React.JSX.Element {
         return (
             <S.Menu style={indexMenuSelecionado == index && itemSelecionarStyle()} onPress={() => handleMenuSelecionado(item, index)}>
-                <Icon name={item.icone} size={21} color={getTheme().colors.primary500} style={{opacity: indexMenuSelecionado == index ? 1.0 : 0.6}} />
-                <S.Titulo style={{opacity: indexMenuSelecionado == index ? 1.0 : 0.6}}>{item.titulo}</S.Titulo>
+                <Icon name={item.icone} size={21} color={getTheme().colors.textoMenu} style={{opacity: indexMenuSelecionado == index ? 1.0 : 0.7}} />
+                <S.Titulo style={{opacity: indexMenuSelecionado == index ? 1.0 : 0.7}}>{item.titulo}</S.Titulo>
             </S.Menu>
         )
     }

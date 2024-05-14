@@ -28,7 +28,18 @@ export default {
         background500: '#717171',
         background600: '#8b8b8b',
 
-        textColor: '#fff',
-        invertedTextColor: '#121212',
+        textoPrimario: 'rgba(255,255,255,1)',
+        textoSecundario: '#121212',
+        invertedtextoPrimario: '#121212',
+        fundoTelaPrimaria: '#121212',
+        fundoTelaSecundaria: '#3f3f3f',
+
+        //Header
+        fundoHeader: '#121212',
+
+        //Menu
+        textoMenu: '#fff',
+        fundoMenu: '#3f3f3f',
+        fundoMenuSelecionado: '#575757',
     }
 }
