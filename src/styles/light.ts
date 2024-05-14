@@ -41,5 +41,9 @@ export default {
         textoMenu: '#fff',
         fundoMenu: '#373354',
         fundoMenuSelecionado: '#4d4875',
+
+        //Switch tema
+        fundoSwitchTema: '#575757',
+        iconeSwitchTema: '#575757',
     }
 }

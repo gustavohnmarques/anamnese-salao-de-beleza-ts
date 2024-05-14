@@ -1,9 +1,8 @@
 import React from 'react';
 import * as S from "./styles";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
-import { Switch } from 'react-native-switch';
-import { useTheme } from '../../contexts/theme';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import SwitchTema from '../SwitchTema/SwitchTema';
+
 
 export type Tipos = "menu" | "voltar";
 
@@ -14,8 +13,7 @@ export type Props = {
 
 
 export default function Header(props: Props): React.JSX.Element {
-    const navigation = useNavigation();
-    const { handleChangeTheme, currentTheme, getTheme } = useTheme();
+    const navigation = useNavigation();    
 
     return (
         <S.Container>
@@ -26,17 +24,7 @@ export default function Header(props: Props): React.JSX.Element {
                 <S.Titulo>{props.titulo}</S.Titulo>
             </S.ContainerTitulo>
             <S.ContainerDark>                
-                <Switch
-                    value={currentTheme == 'dark' ? true : false}
-                    onValueChange={handleChangeTheme}
-                    backgroundActive={getTheme().colors.background400}
-                    backgroundInactive={'gray'}
-                    activeText={''}
-                    inActiveText={''}
-                    
-                    renderInsideCircle={() => <S.IconeTheme name='moon-o' /> }
-
-                />
+                <SwitchTema />
             </S.ContainerDark>
         </S.Container>
     )
