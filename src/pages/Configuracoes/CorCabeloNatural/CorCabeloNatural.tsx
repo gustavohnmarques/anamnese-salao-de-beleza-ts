@@ -69,7 +69,7 @@ export default function CorCabeloNatural(): React.JSX.Element {
 
   return (
     <>
-      <Header tipo='voltar' titulo='Cadastro de cor de cabelo natural' />
+      <Header tipo='voltar' titulo='Cor de cabelo natural' />
       <S.Container>
         <NovoItem funcaoRetorno={handleNovoItem} funcaoValidacao={novoItemJaExiste} valor={indexItemEditando != null ? listaCorCabelo![indexItemEditando]?.descricao ?? '' : ''} refInput={refInput} funcaoCancelar={cancelarEdicaoItem} />
 

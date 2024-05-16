@@ -69,7 +69,7 @@ export default function CurvaturaCabeloNatural(): React.JSX.Element {
 
   return (
     <>
-      <Header tipo='voltar' titulo='Cadastro curvatura de cabelo natural' />
+      <Header tipo='voltar' titulo='Curvatura de cabelo natural' />
       <S.Container>
         <NovoItem funcaoRetorno={handleNovoItem} funcaoValidacao={novoItemJaExiste} valor={indexItemEditando != null ? listaCurvaturaCabeloNatural![indexItemEditando]?.descricao ?? '' : ''} refInput={refInput} funcaoCancelar={cancelarEdicaoItem} />
 

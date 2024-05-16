@@ -1,5 +1,7 @@
 import styled, { css } from "styled-components/native";
 import { BlurView } from "@react-native-community/blur";
+import { TamanhoFonte } from "../../utils/TamanhoFonte";
+import { PorcentagemAlturaTela } from "../../utils/PorcentagemTela";
 
 export const Container = styled.View`    
     ${({ theme }) => css`
@@ -13,8 +15,7 @@ export const Menu = styled.TouchableOpacity`
         border-radius: 8px;
         align-items: 'center';
         margin: 0px 15px 0px 15px;                
-        height: 60px;
-        flex: 1;
+        height: ${PorcentagemAlturaTela(6.5)}px;        
         align-items: center;
         padding-left: 15px;
         flex-direction: row;
@@ -35,7 +36,7 @@ export const MenuItem = styled.View`
 
 export const Titulo = styled.Text`    
     ${({ theme }) => css`        
-        font-size: 15px;
+        font-size: ${TamanhoFonte(1.6)};
         color: ${theme.colors.textoMenu};
         font-family: 'Roboto-Medium';
         letter-spacing: 1.2px;

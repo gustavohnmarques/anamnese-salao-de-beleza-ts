@@ -67,7 +67,7 @@ export default function Alergia(): React.JSX.Element {
 
   return (
     <>
-      <Header tipo='voltar' titulo='Cadastro de alergia' />
+      <Header tipo='voltar' titulo='Alergia' />
       <S.Container>
         <NovoItem funcaoRetorno={handleNovoItem} funcaoValidacao={novoItemJaExiste} valor={indexItemEditando != null ? listaCorCabelo![indexItemEditando]?.descricao ?? '' : ''} refInput={refInput} funcaoCancelar={cancelarEdicaoItem} />
 

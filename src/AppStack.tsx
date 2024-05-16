@@ -1,10 +1,15 @@
 import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createStackNavigator } from '@react-navigation/stack';
-import Home from "./pages/Home/Home";
+
 import Menu from "./components/Menu/Menu";
 
+//Paginas
+import Home from "./pages/Home/Home";
 import Configuracoes from "./pages/Configuracoes/Configuracoes";
+import Clientes from "./pages/Clientes/Clientes";
+
+//Filhos de configurações
 import CorCabeloNatural from "./pages/Configuracoes/CorCabeloNatural/CorCabeloNatural";
 import TipoRaiz from "./pages/Configuracoes/TipoRaiz/TipoRaiz";
 import CurvaturaCabeloNatural from "./pages/Configuracoes/CurvaturaCabeloNatural/CurvaturaCabeloNatural";
@@ -26,7 +31,7 @@ const StackConfiguracoes = () => (
 )
 
 const AppStack = () => {
-    
+
     return (
         <Drawer.Navigator drawerContent={(props) => <Menu {...props} />}>
             <Drawer.Screen
@@ -37,6 +42,12 @@ const AppStack = () => {
             <Drawer.Screen
                 name="Configuracoes"
                 component={StackConfiguracoes}
+                options={{ headerShown: false }}
+            />
+
+            <Drawer.Screen
+                name="Clientes"
+                component={Clientes}
                 options={{ headerShown: false }}
             />
         </Drawer.Navigator>

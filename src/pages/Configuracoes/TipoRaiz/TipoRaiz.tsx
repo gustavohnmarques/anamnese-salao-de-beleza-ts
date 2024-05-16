@@ -72,7 +72,7 @@ export default function TipoRaiz(): React.JSX.Element {
 
     return (
         <>
-            <Header tipo='voltar' titulo='Cadastro de tipo de raiz' />
+            <Header tipo='voltar' titulo='Tipo de raiz' />
             <S.Container>
                 <NovoItem funcaoRetorno={handleNovoItem} funcaoValidacao={novoItemJaExiste} valor={indexItemEditando != null ? listaTipoRaiz![indexItemEditando]?.descricao ?? '' : ''} refInput={refInput} funcaoCancelar={cancelarEdicaoItem} />
 

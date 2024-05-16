@@ -45,6 +45,7 @@ export const Titulo = styled.Text`
         font-family: 'Roboto-Bold';
         letter-spacing: 1.2px;
         
+        
     `}
 `
 
