@@ -8,6 +8,8 @@ import { useTheme } from '../../contexts/theme';
 import Header from '../../components/Header/Header';
 import React, { useCallback } from 'react';
 import { isTablet } from 'react-native-device-info';
+import InputSelect from '../../components/Inputs/InputSelect';
+
 const InputCelular = React.lazy(() => import('../../components/Inputs/InputCelular'));
 const InputDataNascimento = React.lazy(() => import('../../components/Inputs/InputDataNascimento'));
 const InputTexto = React.lazy(() => import('../../components/Inputs/InputTexto'));
@@ -48,44 +50,49 @@ export default function Clientes(): React.JSX.Element {
     { name: 'email', label: 'E-mail', tipo: 'texto' },
     { name: 'celular', label: 'Celular', tipo: 'celular' },
     { name: 'cidade', label: 'Cidade', tipo: 'texto' },
-    { name: 'endereco', label: 'Endereço', tipo: 'texto' },
-    { name: 'bairro', label: 'Bairro', tipo: 'texto' },
+    { name: 'endereco', label: 'Endereço', tipo: 'texto' },    
   ]
 
   const tipoInput = (props: PropsTipoInput) => {
     switch (props.tipo) {
       case 'texto':
         return <InputTexto label={props.label} name={props.name} control={control} />
-        break;
+        
       case 'dataNascimento':
         return <InputDataNascimento label={props.label} name={props.name} control={control} />
-        break;
+        
       case 'celular':
         return <InputCelular label={props.label} name={props.name} control={control} />
-        break;
 
-      default:
+      case 'select':
         return <InputTexto label={props.label} name={props.name} control={control} />
-        break;
+      
+      default:
+        return <InputTexto label={props.label} name={props.name} control={control} />        
     }
   }
 
-  const renderItem = useCallback((item: any) => (    
+  const renderItem = useCallback((item: any) => (
     tipoInput(item.item)
   ), []);
 
 
   return (
-    <S.Container>
+    <>
       <Header tipo='menu' titulo='Clientes' />
-      <FlatList
-        data={lista}
-        renderItem={renderItem}
-        contentContainerStyle={{ gap: 15 }}
-        columnWrapperStyle={isTablet() && { gap: 15 }}
-        numColumns={isTablet() ? 2 : 1}
-        keyExtractor={(item, index) => index.toString()}
-      />
-    </S.Container>
+      <S.Container>
+        <S.Titulo>Dados pessoais</S.Titulo>        
+        <FlatList
+          data={lista}
+          renderItem={renderItem}
+          contentContainerStyle={{ gap: 15 }}
+          columnWrapperStyle={isTablet() && { gap: 15 }}
+          numColumns={isTablet() ? 2 : 1}
+          keyExtractor={(item, index) => index.toString()}
+        />
+        
+      </S.Container>
+    </>
+
   )
 }
