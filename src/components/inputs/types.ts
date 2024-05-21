@@ -25,18 +25,3 @@ export type InputProps = {
     error?: boolean,
     refInput?: React.RefObject<TextInput>,
 };
-
-export type Selectitems = {
-    label: string,
-    value: string
-}
-
-export type SelectProps = {
-    control: Control<any>,
-    name: string,
-    label: string,
-    onChange?: (text: string) => void;
-    error?: boolean,
-    refInput?: React.RefObject<TextInput>,
-    items: Selectitems[],
-};

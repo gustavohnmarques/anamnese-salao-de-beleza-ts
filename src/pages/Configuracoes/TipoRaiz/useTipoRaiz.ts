@@ -26,7 +26,6 @@ export async function getTipoRaiz(FuncRetorno: Function) {
     } catch (error) {
         console.error(error)
     }
-
 }
 
 export async function deleteTipoRaiz(id: Number) {

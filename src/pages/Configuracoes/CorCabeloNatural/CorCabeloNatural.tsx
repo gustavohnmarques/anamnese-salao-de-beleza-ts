@@ -1,7 +1,6 @@
 import { Alert, Button, FlatList, Text, TextInput, View } from 'react-native';
 import { useEffect, useRef, useState } from 'react';
 import { atualizarCorCabeloNatural, deleteCorCabeloNatural, getCoresCabeloNatural, novaCorCabeloNatural } from './useCorCabeloNatural';
-import { ListaCorCabeloNatural } from './types';
 import { CorCabeloNaturalItem } from '../../../components/Configs/CorCabeloNatural/CorCabeloNaturalItem';
 import NovoItem, { Cadastro } from '../../../components/Configs/NovoItem/NovoItem';
 import React from 'react';
@@ -9,6 +8,7 @@ import Header from '../../../components/Header/Header';
 import * as S from './styles'
 import ListaVazia from '../../../components/Geral/ListaVazia/ListaVazia';
 import Skeleton from './componentes/Skeleton';
+import { ListaCorCabeloNatural } from '../../../types/ListaCorCabeloNatural.type';
 
 
 

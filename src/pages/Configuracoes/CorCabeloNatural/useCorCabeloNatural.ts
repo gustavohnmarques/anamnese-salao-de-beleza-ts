@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { DATABASE_NAME } from '../../../config/Constants';
-import { ListaCorCabeloNatural, atualizarCorCabeloNaturalProps } from './types';
+import { atualizarCorCabeloNaturalProps } from './types';
 import SQLite from 'react-native-sqlite-storage';
 import { Cadastro } from '../../../components/Configs/NovoItem/NovoItem';
+import { ListaCorCabeloNatural } from '../../../types/ListaCorCabeloNatural.type';
 
 
 const db = SQLite.openDatabase({ name: DATABASE_NAME, createFromLocation: 1 }, () => { }, () => { });
