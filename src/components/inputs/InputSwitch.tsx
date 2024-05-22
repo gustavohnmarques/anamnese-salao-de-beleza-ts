@@ -5,11 +5,10 @@ import { InputProps } from './types';
 import styled, { css } from "styled-components/native";
 import { TamanhoFonte } from '../../utils/TamanhoFonte';
 import { useTheme } from '../../contexts/theme';
-import { PorcentagemAlturaTela } from '../../utils/PorcentagemTela';
 
 export default function InputSwitch(props: InputProps): React.JSX.Element {
 
-    const {getTheme} = useTheme();
+    const { getTheme } = useTheme();
 
     return (
         <Controller
@@ -18,7 +17,10 @@ export default function InputSwitch(props: InputProps): React.JSX.Element {
             render={({ field }) => (
                 <Container>
                     <Titulo>{props.label}</Titulo>
-                    <Switch value={field.value} onValueChange={field.onChange} color={getTheme().colors.primary100} disabled={props.disabled} />
+                    <Switch value={field.value} onValueChange={(e) => {
+                        field.onChange(e);
+                        props.onChangeIcon;
+                    }} color={getTheme().colors.primary100}  />
                 </Container>
             )}
         />

@@ -8,10 +8,11 @@ import { useTheme } from '../../contexts/theme';
 import Header from '../../components/Header/Header';
 import React, { useCallback, useEffect, useState } from 'react';
 import { isTablet } from 'react-native-device-info';
-import { getCoresCabeloNatural, getCurvaturaCabeloNatural, getTipoRaiz } from './useClientes';
+import { getCamposVisiveisClientes, getCoresCabeloNatural, getCurvaturaCabeloNatural, getTipoRaiz } from './useClientes';
 import { SelectItens } from '../../types/InputSelect.type';
 import { Chip } from 'react-native-paper';
-import { CommonActions, useNavigation } from '@react-navigation/native';
+import { CommonActions, EventArg, PartialState, useNavigation } from '@react-navigation/native';
+import { CamposVisiveisClientes } from '../../types/CamposVisiveisClientes.type';
 
 const InputCelular = React.lazy(() => import('../../components/Inputs/InputCelular'));
 const InputDataNascimento = React.lazy(() => import('../../components/Inputs/InputDataNascimento'));
@@ -22,11 +23,14 @@ const InputSelect = React.lazy(() => import('../../components/Inputs/InputSelect
 
 export default function Clientes(): React.JSX.Element {
 
-  const navigation = useNavigation();   
-  
+  const navigation = useNavigation();
+    
   const [listaCorCabelo, setListaCorCabelo] = useState<SelectItens[]>([]);
   const [listaTipoRaiz, setListaTipoRaiz] = useState<SelectItens[]>([]);
   const [listaCurvatura, setListaCurvatura] = useState<SelectItens[]>([]);
+  const [camposVisiveis, setCamposVisiveis] = useState<CamposVisiveisClientes>();
+
+  const [alterandoConfiguracoes, setAlterandoConfiguracoes] = useState<Boolean>(false)
 
   const { handleChangeTheme } = useTheme();
 
@@ -72,6 +76,12 @@ export default function Clientes(): React.JSX.Element {
   ]
 
   const tipoInput = (props: PropsTipoInput) => {
+
+    //Verificar se o campo está visivel
+    if(camposVisiveis != undefined && !Boolean(camposVisiveis[props.name as keyof typeof camposVisiveis])){
+      return <></>
+    }    
+  
     switch (props.tipo) {
       case 'texto':
         return <InputTexto label={props.label} name={props.name} control={control} />
@@ -92,19 +102,43 @@ export default function Clientes(): React.JSX.Element {
 
   const renderItem = useCallback((item: any) => (
     tipoInput(item.item)
-  ), [listaTipoRaiz]);
+  ), [camposVisiveis]);
 
-  useEffect(() => {
+  useEffect(() => {    
     getCoresCabeloNatural(setListaCorCabelo);
     getTipoRaiz(setListaTipoRaiz);
-    getCurvaturaCabeloNatural(setListaCurvatura);
+    getCurvaturaCabeloNatural(setListaCurvatura);    
+    getCamposVisiveisClientes(setCamposVisiveis);
+
+    navigation.addListener('focus', function(){
+      buscarCamposVisiveis()
+    })
+
+    return () => {
+      navigation.removeListener('state', function(){
+        buscarCamposVisiveis()
+      });
+    };
   }, [])
 
+  const buscarCamposVisiveis = () => {
+      if(alterandoConfiguracoes){
+        //Usuario acessou tela de alteração dos campos, buscar novamente os campos visiveis
+        setAlterandoConfiguracoes(true);
+        console.log('VAI BUSCAR DNV')
+        getCamposVisiveisClientes(setCamposVisiveis)
+      }
+  }
+
+  const handleClickConfiguracoes = () => {
+    setAlterandoConfiguracoes(true);
+    navigation.dispatch(CommonActions.navigate({ name: 'CamposVisiveis'}))
+  }
 
 
   return (
     <>
-      <Header tipo='menu' titulo='Clientes' componente={<S.Icone name='cog' />} handleClickComponente={() => navigation.dispatch(CommonActions.navigate({ name: 'CamposVisiveis' }))} />
+      <Header tipo='menu' titulo='Clientes' componente={<S.Icone name='cog' />} handleClickComponente={handleClickConfiguracoes} />
       <S.Container>
         <S.Titulo>Dados pessoais</S.Titulo>
         <FlatList

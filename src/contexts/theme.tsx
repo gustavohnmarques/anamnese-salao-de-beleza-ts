@@ -1,5 +1,6 @@
-import React, {createContext, useContext, useState} from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import theme from '../styles';
+import ToastCustomizado from '../components/ToastCustomizado/ToastCustomizado';
 
 export type Themes = "dark" | "light";
 
@@ -11,23 +12,25 @@ type ThemeContextData = {
 
 interface Props {
     children: React.ReactNode;
-  }
+}
 
 const ThemeContext = createContext<ThemeContextData>({} as ThemeContextData);
 
-export const ThemeProvider: React.FC<Props> = ({children}) => {
+export const ThemeProvider: React.FC<Props> = ({ children }) => {
 
-    const [selectedTheme, setSelectedTheme] = useState<Themes>('dark');    
+    const [selectedTheme, setSelectedTheme] = useState<Themes>('dark');
 
-    function handleChangeTheme(){
-        if(selectedTheme === 'light'){
+
+
+    function handleChangeTheme() {
+        if (selectedTheme === 'light') {
             setSelectedTheme('dark')
-        }else{
+        } else {
             setSelectedTheme('light')
         }
     }
 
-    function getTheme(){
+    function getTheme() {
         return theme[selectedTheme];
     }
 
@@ -37,13 +40,14 @@ export const ThemeProvider: React.FC<Props> = ({children}) => {
         getTheme,
     }}>
         {children}
+        <ToastCustomizado />
     </ThemeContext.Provider>
 
 }
 
 export function useTheme(): ThemeContextData {
     const context = useContext(ThemeContext);
-    if(!context){
+    if (!context) {
         throw Error("Erro")
     }
     return context;

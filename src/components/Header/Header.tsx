@@ -1,7 +1,6 @@
 import React from 'react';
 import * as S from "./styles";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
-import SwitchTema from '../SwitchTema/SwitchTema';
 
 
 export type Tipos = "menu" | "voltar";
@@ -11,6 +10,7 @@ export type Props = {
     tipo: Tipos,
     componente?: React.JSX.Element,
     handleClickComponente?: () => void,
+    handleClickVoltar?: () => void,
 };
 
 
@@ -19,7 +19,7 @@ export default function Header(props: Props): React.JSX.Element {
 
     return (
         <S.Container>
-            <S.Menu onPress={() => props.tipo == 'menu' ? navigation.dispatch(DrawerActions.openDrawer()) : navigation.goBack()}>
+            <S.Menu onPress={() => props.tipo == 'menu' ? navigation.dispatch(DrawerActions.openDrawer()) : props.handleClickVoltar != undefined ? props.handleClickVoltar() : navigation.goBack()}>
                 {props.tipo == 'menu' ? <S.Icone name='navicon' /> : <S.Icone name='chevron-left' />}
             </S.Menu>
             <S.ContainerTitulo>
