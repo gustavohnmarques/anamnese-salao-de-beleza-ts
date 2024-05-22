@@ -49,12 +49,12 @@ export const Titulo = styled.Text`
     `}
 `
 
-export const ContainerDark = styled.View`
+export const ContainerDark = styled.TouchableOpacity`
     ${({ theme }) => css`  
         display: flex;
         width: ${PorcentagemLarguraTela(20)}px;        
         justify-content: center;
-        align-items: center;
+        align-items: center;        
     `}
 `
 export const IconeTheme = styled(Icon)`    

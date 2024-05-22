@@ -8,6 +8,7 @@ import { DrawerContentComponentProps, DrawerNavigationHelpers } from '@react-nav
 import { CommonActions, ParamListBase } from '@react-navigation/native';
 import { useNavigation } from "@react-navigation/native"
 import Header from '../../components/Header/Header';
+import SwitchTema from '../../components/SwitchTema/SwitchTema';
 
 export default function Configuracoes(): React.JSX.Element {
 
@@ -93,13 +94,12 @@ export default function Configuracoes(): React.JSX.Element {
 
   const handleClick = (tela: string) => {
     navigation.dispatch(CommonActions.navigate({ name: tela }));
-    //console.log(navigation.jum)
   }
 
 
   return (
     <>
-      <Header tipo='menu' titulo='Configurações' />
+      <Header tipo='menu' titulo='Configurações' componente={<SwitchTema />} />
       <S.Container>
         <FlatList
           data={menus}

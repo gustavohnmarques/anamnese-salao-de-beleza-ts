@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components/native";
-import { TamanhoFonte } from "../../utils/TamanhoFonte";
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { TamanhoFonte } from "../../../utils/TamanhoFonte";
+
 
 export const Container = styled.View`    
     ${({theme}) => css`
@@ -19,13 +19,6 @@ export const Titulo = styled.Text`
         padding: 15px 0 15px 0;
         font-weight: bold;
         opacity: 0.6;
-    `}
-`
-
-export const Icone = styled(Icon)`    
-    ${({ theme }) => css`
-        color: ${theme.colors.textoMenu};
-        font-size: ${TamanhoFonte(2.5)};
     `}
 `
 

@@ -3,9 +3,9 @@ import { Controller } from 'react-hook-form';
 import RNPickerSelect from 'react-native-picker-select';
 import styled, { css } from "styled-components/native";
 import { SelectProps } from '../../types/InputSelect.type';
+import { PorcentagemAlturaTela } from '../../utils/PorcentagemTela';
 
-export default function InputSelect(props: SelectProps): React.JSX.Element {    
-    console.log('ta chegando assim', props.itens)
+export default function InputSelect(props: SelectProps): React.JSX.Element {        
     return (
         <Controller
             name={props.name}
@@ -38,6 +38,7 @@ const Input = styled.View`
         border-bottom-width: 0.7px;
         border-bottom-color: rgb(102, 90, 111);
         flex: 1;
+        min-height: ${PorcentagemAlturaTela(6)}px;
     `}
 `
 

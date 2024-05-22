@@ -7,7 +7,10 @@ import Menu from "./components/Menu/Menu";
 //Paginas
 import Home from "./pages/Home/Home";
 import Configuracoes from "./pages/Configuracoes/Configuracoes";
+
+//Clientes
 import Clientes from "./pages/Clientes/Clientes";
+import CamposVisiveis from "./pages/Clientes/CamposVisiveis/CamposVisiveis";
 
 //Filhos de configurações
 import CorCabeloNatural from "./pages/Configuracoes/CorCabeloNatural/CorCabeloNatural";
@@ -30,6 +33,15 @@ const StackConfiguracoes = () => (
     </Stack.Navigator>
 )
 
+const StackClientes = () => (
+    <Stack.Navigator initialRouteName="Clientes">
+        <Stack.Screen name="Clientes" options={{ headerShown: false }} component={Clientes} />
+        <Stack.Screen name="CamposVisiveis" options={{ headerShown: false }} component={CamposVisiveis}></Stack.Screen>
+    </Stack.Navigator>
+)
+
+
+
 const AppStack = () => {
 
     return (
@@ -47,7 +59,7 @@ const AppStack = () => {
 
             <Drawer.Screen
                 name="Clientes"
-                component={Clientes}
+                component={StackClientes}
                 options={{ headerShown: false }}
             />
         </Drawer.Navigator>

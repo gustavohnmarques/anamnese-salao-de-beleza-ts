@@ -1,4 +1,4 @@
-import { FlatList, ScrollView} from 'react-native';
+import { FlatList, ScrollView } from 'react-native';
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CreateUser, Input, PropsTipoInput } from './Types';
@@ -11,16 +11,19 @@ import { isTablet } from 'react-native-device-info';
 import { getCoresCabeloNatural, getCurvaturaCabeloNatural, getTipoRaiz } from './useClientes';
 import { SelectItens } from '../../types/InputSelect.type';
 import { Chip } from 'react-native-paper';
+import { CommonActions, useNavigation } from '@react-navigation/native';
 
-const InputCelular = React.lazy(() => import('../../components/Inputs/InputCelular'));
-const InputDataNascimento = React.lazy(() => import('../../components/Inputs/InputDataNascimento'));
-const InputTexto = React.lazy(() => import('../../components/Inputs/InputTexto'));
-const InputSelect = React.lazy(() => import('../../components/Inputs/InputSelect'));
+const InputCelular = React.lazy(() => import('../../components/inputs/InputCelular'));
+const InputDataNascimento = React.lazy(() => import('../../components/inputs/InputDataNascimento'));
+const InputTexto = React.lazy(() => import('../../components/inputs/InputTexto'));
+const InputSelect = React.lazy(() => import('../../components/inputs/InputSelect'));
 
 
 
 export default function Clientes(): React.JSX.Element {
 
+  const navigation = useNavigation();   
+  
   const [listaCorCabelo, setListaCorCabelo] = useState<SelectItens[]>([]);
   const [listaTipoRaiz, setListaTipoRaiz] = useState<SelectItens[]>([]);
   const [listaCurvatura, setListaCurvatura] = useState<SelectItens[]>([]);
@@ -99,25 +102,21 @@ export default function Clientes(): React.JSX.Element {
 
 
 
-
   return (
     <>
-      <Header tipo='menu' titulo='Clientes' />
-      <ScrollView>
-        <S.Container>
-          <S.Titulo>Dados pessoais</S.Titulo>
-          <FlatList
-            data={lista}
-            renderItem={renderItem}
-            contentContainerStyle={{ gap: 15 }}
-            columnWrapperStyle={isTablet() && { gap: 15 }}
-            numColumns={isTablet() ? 2 : 1}
-            keyExtractor={(item, index) => index.toString()}
-          />
-          <S.Titulo>Alergias</S.Titulo>          
-        </S.Container>
-      </ScrollView>
-
+      <Header tipo='menu' titulo='Clientes' componente={<S.Icone name='cog' />} handleClickComponente={() => navigation.dispatch(CommonActions.navigate({ name: 'CamposVisiveis' }))} />
+      <S.Container>
+        <S.Titulo>Dados pessoais</S.Titulo>
+        <FlatList
+          data={lista}
+          renderItem={renderItem}
+          contentContainerStyle={{ gap: 15 }}
+          columnWrapperStyle={isTablet() && { gap: 15 }}
+          numColumns={isTablet() ? 2 : 1}
+          keyExtractor={(item, index) => index.toString()}
+        />
+        <S.Titulo>Alergias</S.Titulo>
+      </S.Container>
     </>
 
   )

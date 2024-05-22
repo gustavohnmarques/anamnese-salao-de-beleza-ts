@@ -9,6 +9,8 @@ export type Tipos = "menu" | "voltar";
 export type Props = {
     titulo: string,
     tipo: Tipos,
+    componente?: React.JSX.Element,
+    handleClickComponente?: () => void,
 };
 
 
@@ -23,8 +25,8 @@ export default function Header(props: Props): React.JSX.Element {
             <S.ContainerTitulo>
                 <S.Titulo>{props.titulo}</S.Titulo>
             </S.ContainerTitulo>
-            <S.ContainerDark>                
-                <SwitchTema />
+            <S.ContainerDark onPress={props.handleClickComponente}>                
+                {props.componente}
             </S.ContainerDark>
         </S.Container>
     )

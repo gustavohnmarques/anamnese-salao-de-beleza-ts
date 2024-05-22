@@ -24,4 +24,5 @@ export type InputProps = {
     onChangeIcon?: (e: GestureResponderEvent) => void,
     error?: boolean,
     refInput?: React.RefObject<TextInput>,
+    disabled?: boolean
 };
