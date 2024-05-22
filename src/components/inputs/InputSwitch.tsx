@@ -31,20 +31,18 @@ const Container = styled.View`
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        height: ${PorcentagemAlturaTela(6)}px;
-        background-color: red;
+        align-content: center;        
     `}
 `
 
 const Titulo = styled.Text`    
     ${({ theme }) => css`
-        font-size: ${TamanhoFonte(1.7)};
+        font-size: ${TamanhoFonte(1.5)};
         color: ${theme.colors.textoPrimario};
         font-family: 'Roboto-Bold';
-        letter-spacing: 1.2px;
-        padding: 15px 0 15px 0;
+        letter-spacing: 1.2px;        
         font-weight: bold;
-        opacity: 0.6;
+        opacity: 0.9;
     `}
 `
 

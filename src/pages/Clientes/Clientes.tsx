@@ -13,10 +13,10 @@ import { SelectItens } from '../../types/InputSelect.type';
 import { Chip } from 'react-native-paper';
 import { CommonActions, useNavigation } from '@react-navigation/native';
 
-const InputCelular = React.lazy(() => import('../../components/inputs/InputCelular'));
-const InputDataNascimento = React.lazy(() => import('../../components/inputs/InputDataNascimento'));
-const InputTexto = React.lazy(() => import('../../components/inputs/InputTexto'));
-const InputSelect = React.lazy(() => import('../../components/inputs/InputSelect'));
+const InputCelular = React.lazy(() => import('../../components/Inputs/InputCelular'));
+const InputDataNascimento = React.lazy(() => import('../../components/Inputs/InputDataNascimento'));
+const InputTexto = React.lazy(() => import('../../components/Inputs/InputTexto'));
+const InputSelect = React.lazy(() => import('../../components/Inputs/InputSelect'));
 
 
 

@@ -11,7 +11,7 @@ import { HelperText } from 'react-native-paper';
 import * as S from './styles'
 import { useTheme } from '../../../contexts/theme';
 import React from 'react'
-import InputTexto from '../../inputs/InputTexto';
+import InputTexto from '../../Inputs/InputTexto';
 
 export type Cadastro = {
   descricao: string,
