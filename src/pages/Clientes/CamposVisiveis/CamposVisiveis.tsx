@@ -8,7 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import InputSwitch from '../../../components/Inputs/InputSwitch';
 import Header from '../../../components/Header/Header';
 import { getCamposVisiveisClientes, updateCampoVisivelClientes } from './useCamposInvisiveis';
-import { CamposVisiveisClientes } from '../../../types/CamposVisiveisClientes.type';
+import { CamposClientes } from '../../../types/CamposVisiveisClientes.type';
 import Toast from 'react-native-toast-message';
 import { useNavigation } from '@react-navigation/native';
 
@@ -31,7 +31,7 @@ export default function CamposVisiveis(): React.JSX.Element {
 
     ]);
 
-    const [camposVisiveis, setCamposVisiveis] = useState<CamposVisiveisClientes>();
+    const [camposVisiveis, setCamposVisiveis] = useState<CamposClientes>();
 
     const formType = object({
         nome: boolean().required(),

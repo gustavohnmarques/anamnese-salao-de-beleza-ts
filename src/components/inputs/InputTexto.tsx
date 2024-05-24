@@ -10,7 +10,7 @@ export default  function InputTexto(props: InputProps): React.JSX.Element {
             name={props.name}
             control={props.control}
             render={({ field }) => (
-                <View style={{ flex: 1 }}>
+                <View style={{ flex: 1}}>
                     <InputPadrao field={field} onChange={field.onChange} label={props.label} icon={props.icon} onChangeIcon={props.onChangeIcon} password={props.password} keyboardType='default' error={props.error ?? false} refInput={props.refInput} />
                 </View>
             )}

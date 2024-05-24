@@ -52,7 +52,7 @@ export const Titulo = styled.Text`
 export const ContainerDark = styled.TouchableOpacity`
     ${({ theme }) => css`  
         display: flex;
-        width: ${PorcentagemLarguraTela(20)}px;        
+        width: ${PorcentagemLarguraTela(13)}px;        
         justify-content: center;
         align-items: center;        
     `}

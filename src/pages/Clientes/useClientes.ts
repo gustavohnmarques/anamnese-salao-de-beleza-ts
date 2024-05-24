@@ -69,11 +69,11 @@ export async function getCamposVisiveisClientes(FuncRetorno: Function) {
         db.transaction(function (tx) {
             tx.executeSql(
                 'SELECT * FROM campos_visiveis_cad_cliente LIMIT 1', [],
-                (tx, results) => {                    
+                (tx, results) => {
                     let lista: CamposVisiveisClientes[] = [];
                     for (let i = 0; i < results.rows.length; ++i) {
                         lista.push(results.rows.item(i));
-                    }                                     
+                    }                                                 
                     FuncRetorno(lista[0]);
                 }
             );

@@ -1,4 +1,6 @@
-export type CamposVisiveisClientes = {
+import { SelectItens } from "./InputSelect.type";
+
+export type CamposClientes = {
     nome: boolean,
     dataNascimento: boolean,
     email: boolean,
@@ -10,3 +12,11 @@ export type CamposVisiveisClientes = {
     tipoRaiz: boolean,
     curvaturaNatural: boolean,
 };
+
+export type CamposVisiveisClientes = {
+    name: string,
+    label: string,
+    tipo: string,
+    itens?: SelectItens[],
+    visivel: boolean
+}
