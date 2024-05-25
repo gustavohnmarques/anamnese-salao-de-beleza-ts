@@ -12,6 +12,8 @@ import { getCamposVisiveisClientes, getCoresCabeloNatural, getCurvaturaCabeloNat
 import { SelectItens } from '../../types/InputSelect.type';
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import { CamposVisiveisClientes } from '../../types/CamposVisiveisClientes.type';
+import { Chip } from 'react-native-paper';
+import InputSelectChip from '../../components/Inputs/InputSelectChip';
 
 const InputCelular = React.lazy(() => import('../../components/Inputs/InputCelular'));
 const InputDataNascimento = React.lazy(() => import('../../components/Inputs/InputDataNascimento'));
@@ -164,8 +166,15 @@ export default function Clientes(): React.JSX.Element {
           />
         
 
-        <View style={{ backgroundColor: 'blue', flex: 1 }}>
+        <View style={{ flex: 1 }}>
           <S.Titulo>Alergias</S.Titulo>
+          <InputSelectChip label={'Teste'} name={'Teste'} control={control} itens={listaCorCabelo} />
+          <Chip icon="information" onPress={() => console.log('Pressed')}>Example Chip</Chip>
+          <Chip icon="information" onPress={() => console.log('Pressed')}>Example Chip</Chip>
+          <Chip icon="information" onPress={() => console.log('Pressed')}>Example Chip</Chip>
+          <View style={{ marginTop: 50 }}>
+            <InputSelectChip label={'Teste'} name={'Teste'} control={control} itens={listaCorCabelo} />
+          </View>          
         </View>
       </S.Container>
     </>

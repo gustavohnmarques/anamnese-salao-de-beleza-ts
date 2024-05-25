@@ -1,7 +1,7 @@
 export default {
     tipo: 'dark',
     colors: {        
-        primary100: 'rgba(166, 136, 250, 1)',
+        primary100: 'rgba(55, 51, 84, 1)',
         primary200: '#5e43f3',
         primary300: '#7a5af5',
         primary400: '#9171f8',
