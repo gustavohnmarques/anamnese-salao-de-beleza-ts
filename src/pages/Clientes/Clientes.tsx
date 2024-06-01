@@ -8,8 +8,8 @@ import { useTheme } from '../../contexts/theme';
 import Header from '../../components/Header/Header';
 import React, { useCallback, useEffect, useState } from 'react';
 import { isTablet } from 'react-native-device-info';
-import { getCamposVisiveisClientes, getCoresCabeloNatural, getCurvaturaCabeloNatural, getTipoRaiz } from './useClientes';
-import { SelectItens } from '../../types/InputSelect.type';
+import { getAlergias, getCamposVisiveisClientes, getCoresCabeloNatural, getCurvaturaCabeloNatural, getTipoRaiz } from './useClientes';
+import { ItemRemover, SelectItens } from '../../types/InputSelect.type';
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import { CamposVisiveisClientes } from '../../types/CamposVisiveisClientes.type';
 import { Chip } from 'react-native-paper';
@@ -26,9 +26,12 @@ export default function Clientes(): React.JSX.Element {
 
   const navigation = useNavigation();
 
+  const [carregando, setCarregando] = useState<Boolean>(true);
+
   const [listaCorCabelo, setListaCorCabelo] = useState<SelectItens[]>([]);
   const [listaTipoRaiz, setListaTipoRaiz] = useState<SelectItens[]>([]);
   const [listaCurvatura, setListaCurvatura] = useState<SelectItens[]>([]);
+  const [listaAlergia, setListaAlergia] = useState<SelectItens[]>([]);
   const [camposVisiveis, setCamposVisiveis] = useState<CamposVisiveisClientes[]>([
     { name: 'nome', label: 'Nome', tipo: 'texto', visivel: true },
     { name: 'dataNascimento', label: 'Data de nascimento', tipo: 'dataNascimento', visivel: false },
@@ -47,6 +50,9 @@ export default function Clientes(): React.JSX.Element {
     alterandoConfiguracoesRef.current = data;
     setAlterandoConfiguracoes(data);
   };
+
+  //Alergias selecionadas
+  const [listaAlergiaSelecionada, setListaAlergiaSelecionada] = useState<number[]>([]);
 
   const formType = object({
     nome: string().min(5, 'Informe corretamente o nome.').required('Informe corretamente o nome.'),
@@ -76,7 +82,6 @@ export default function Clientes(): React.JSX.Element {
       curvaturaNatural: ''
     },
   })
-
 
   const tipoInput = (props: PropsTipoInput) => {
 
@@ -108,7 +113,7 @@ export default function Clientes(): React.JSX.Element {
     getTipoRaiz(setListaTipoRaiz);
     getCurvaturaCabeloNatural(setListaCurvatura);
     getCamposVisiveisClientes(verificarCamposVisiveis);
-
+    getAlergias(setListaAlergia);
     navigation.addListener('focus', function () {
       buscarCamposVisiveis()
     })
@@ -119,6 +124,11 @@ export default function Clientes(): React.JSX.Element {
       });
     };
   }, [])
+
+  useEffect(() => {
+    setCarregando(false)
+    console.log(listaAlergia)
+  }, [listaAlergia])
 
   const verificarCamposVisiveis = (dados: any) => {
     const camposAtuais = camposVisiveis;
@@ -149,33 +159,87 @@ export default function Clientes(): React.JSX.Element {
     navigation.dispatch(CommonActions.navigate({ name: 'CamposVisiveis' }))
   }
 
+  const handleClickAdicionarAlercia = (item: number) => {
+    if (item != undefined) {
+      const itens = [...listaAlergiaSelecionada];
+      itens.push(item);
+      setListaAlergiaSelecionada(itens);
+      console.log('CLICADO', listaAlergiaSelecionada)
+    }
+  }
+
+  const identificarDescricaoAlergiaPorID = (id: number) => {
+    const item = listaAlergia.filter((item) => item.value == String(id))
+    console.log(item)
+    return item.length > 0 ? item[0].label : ''
+  }
+
+  const renderItemAlergia = useCallback((item: any) => (
+    <Chip closeIcon="close" onPress={() => console.log('Pressed')} onClose={() => removerItemListaAlergia(item.item)}>{identificarDescricaoAlergiaPorID(item.item)}</Chip>
+  ), [listaAlergiaSelecionada]);
+
+  const removerItemListaAlergia = (id: number) => {
+    if (id != undefined) {
+      const itens = listaAlergiaSelecionada.filter((item) => item != id);
+      setListaAlergiaSelecionada(itens);
+    }
+  }
+
   return (
     <>
       <Header tipo='menu' titulo='Clientes' componente={<S.Icone name='cog' />} handleClickComponente={handleClickConfiguracoes} />
       <S.Container>
         <S.Titulo>Dados pessoais</S.Titulo>
-        
-          <FlatList
-            data={camposVisiveis.filter((item) => item.visivel)}
-            renderItem={renderItem}
-            contentContainerStyle={{ gap: 15 }}
-            columnWrapperStyle={isTablet() && { gap: 15 }}
-            numColumns={isTablet() ? 2 : 1}
-            keyExtractor={(item, index) => index.toString()}
-            style={{flexGrow: 0}}
-          />
-        
 
-        <View style={{ flex: 1 }}>
-          <S.Titulo>Alergias</S.Titulo>
-          <InputSelectChip label={'Teste'} name={'Teste'} control={control} itens={listaCorCabelo} />
-          <Chip icon="information" onPress={() => console.log('Pressed')}>Example Chip</Chip>
-          <Chip icon="information" onPress={() => console.log('Pressed')}>Example Chip</Chip>
-          <Chip icon="information" onPress={() => console.log('Pressed')}>Example Chip</Chip>
-          <View style={{ marginTop: 50 }}>
-            <InputSelectChip label={'Teste'} name={'Teste'} control={control} itens={listaCorCabelo} />
-          </View>          
-        </View>
+        <FlatList
+          scrollEnabled={false}
+          data={camposVisiveis.filter((item) => item.visivel)}
+          renderItem={renderItem}
+          contentContainerStyle={{ gap: 15 }}
+          columnWrapperStyle={isTablet() && { gap: 15 }}
+          numColumns={isTablet() ? 2 : 1}
+          keyExtractor={(item, index) => index.toString()}
+          style={{ flexGrow: 0 }}
+        />
+
+
+        {!carregando &&
+          <View style={{ flex: 1 }}>
+            <S.Titulo>Alergias</S.Titulo>
+            <S.ContainerAdicionarAlergia>
+              <InputSelectChip itens={listaAlergia} label='Adicionar' onChange={(item) => handleClickAdicionarAlercia(item)} itensRemover={listaAlergiaSelecionada} />
+            </S.ContainerAdicionarAlergia>
+
+            <FlatList
+              scrollEnabled={false}
+              data={listaAlergiaSelecionada}
+              renderItem={renderItemAlergia}
+              contentContainerStyle={{ gap: 10 }}
+              columnWrapperStyle={isTablet() && { gap: 15 }}
+              numColumns={isTablet() ? 3 : 1}
+              keyExtractor={(item, index) => index.toString()}
+              style={{ flexGrow: 0, marginTop: 10 }}
+            />
+
+            <S.Titulo>Alergias</S.Titulo>
+            <S.ContainerAdicionarAlergia>
+              <InputSelectChip itens={listaAlergia} label='Adicionar' onChange={(item) => handleClickAdicionarAlercia(item)} itensRemover={listaAlergiaSelecionada} />
+            </S.ContainerAdicionarAlergia>
+
+            <FlatList
+              scrollEnabled={false}
+              data={listaAlergiaSelecionada}
+              renderItem={renderItemAlergia}
+              contentContainerStyle={{ gap: 10 }}
+              numColumns={isTablet() ? 3 : 1}
+              keyExtractor={(item, index) => index.toString()}
+              style={{ flexGrow: 0, marginTop: 10 }}
+            />
+
+
+          </View>
+
+        }
       </S.Container>
     </>
 

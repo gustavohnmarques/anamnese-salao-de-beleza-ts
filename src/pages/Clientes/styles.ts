@@ -1,8 +1,11 @@
 import styled, { css } from "styled-components/native";
 import { TamanhoFonte } from "../../utils/TamanhoFonte";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { PorcentagemLarguraTela } from "../../utils/PorcentagemTela";
+import { isTablet } from 'react-native-device-info';
+import { ScrollView } from 'react-native-gesture-handler';
 
-export const Container = styled.View`    
+export const Container = styled.ScrollView`    
     ${({ theme }) => css`
         flex: 1;
         background-color: ${theme.colors.fundoTelaPrimaria};
@@ -32,6 +35,12 @@ export const Icone = styled(Icon)`
 export const ContainerLoader = styled.View`
     ${({ theme }) => css`
         margin-top: 50px;
+    `}
+`
+
+export const ContainerAdicionarAlergia = styled.View`
+    ${({ theme }) => css`
+        width: ${PorcentagemLarguraTela(isTablet() ? 22 : 32)}px;
     `}
 `
 

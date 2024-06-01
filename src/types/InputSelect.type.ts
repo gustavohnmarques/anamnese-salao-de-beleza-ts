@@ -16,3 +16,15 @@ export type SelectProps = {
     refInput?: React.RefObject<TextInput>,
     itens: SelectItens[],
 };
+
+export type ItemRemover = {    
+    value: number,    
+}
+
+export type SelectChipProps = {
+    label: string,
+    onChange: (text: number) => void;
+    error?: boolean,
+    itens: SelectItens[],
+    itensRemover?: number[]
+};

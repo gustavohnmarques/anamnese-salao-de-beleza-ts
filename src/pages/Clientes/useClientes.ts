@@ -95,3 +95,22 @@ export async function getCamposVisiveisClientes(FuncRetorno: Function) {
     }
 }
 
+export async function getAlergias(FuncRetorno: Function) {
+    try {
+        db.transaction(function (tx) {
+            tx.executeSql(
+                'SELECT descricao AS label, id AS value, id AS key FROM alergia ORDER BY id DESC', [],
+                (tx, results) => {                    
+                    let lista: SelectProps[] = [];
+                    for (let i = 0; i < results.rows.length; ++i) {
+                        lista.push(results.rows.item(i));
+                    }
+                    FuncRetorno(lista);
+                }
+            );
+        });
+    } catch (error) {
+        console.error(error)
+    }
+}
+

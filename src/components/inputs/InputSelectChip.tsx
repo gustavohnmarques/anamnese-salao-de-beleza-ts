@@ -1,51 +1,42 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import RNPickerSelect from 'react-native-picker-select';
 import styled, { css } from "styled-components/native";
-import { SelectProps } from '../../types/InputSelect.type';
+import { SelectChipProps, SelectItens, SelectProps } from '../../types/InputSelect.type';
 import { PorcentagemAlturaTela, PorcentagemLarguraTela } from '../../utils/PorcentagemTela';
 import { TamanhoFonte } from '../../utils/TamanhoFonte';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+export default function InputSelectChip(props: SelectChipProps): React.JSX.Element {
 
-{/* <RNPickerSelect
-style={{
-    viewContainer: {
-        opacity: 0,
-        height: 30
-    },
-    chevronUp: {
-        opacity: 0
-    },
-    chevron: {
-        opacity: 0
-    },
-    placeholder: {
-        color: '#4f4953',
-    },
-}}                        
-value={field.value}
-placeholder={{label: props.label}}
-onValueChange={field.onChange}
-items={props.itens}
-/> */}
+    const listaFormatada = () => {
+        return props.itensRemover != undefined ? props.itens.filter((item) => !props.itensRemover?.includes(item.value as never)) : props.itens;
+    }
 
-export default function InputSelectChip(props: SelectProps): React.JSX.Element {
     return (
-        <Input>
-            <Icone name='plus' />
-            <Texto>Selecionar</Texto>
-        </Input>
+        <RNPickerSelect
+            placeholder={{
+                label: 'Selecione um item',                
+            }}            
+            onValueChange={props.onChange}
+            items={listaFormatada()}
+            value={''}
+            children={
+                <Input>
+                    <Icone name='plus' />
+                    <Texto>{props.label}</Texto>
+                </Input>
+            }
+        />
     )
 }
 
 
 const Input = styled.View`    
-    ${({ theme }) => css`
-        width: 150;
+    ${({ theme }) => css`        
         background-color: #e7e1eb;
         border-radius: 10px;
-        padding: 8px;
+        padding: 8px 5px;
         flex-direction: row;
         align-items: center;
         justify-content: space-evenly;
