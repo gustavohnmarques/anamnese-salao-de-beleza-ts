@@ -12,8 +12,11 @@ import { getAlergias, getCamposVisiveisClientes, getCoresCabeloNatural, getCurva
 import { ItemRemover, SelectItens } from '../../types/InputSelect.type';
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import { CamposVisiveisClientes } from '../../types/CamposVisiveisClientes.type';
-import { Chip } from 'react-native-paper';
+import { Button, Chip } from 'react-native-paper';
 import InputSelectChip from '../../components/Inputs/InputSelectChip';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import ModalSelecionarAlergias from '../../components/ModalSelecionarAlergias/ModalSelecionarAlergias';
+import SwitchTema from '../../components/SwitchTema/SwitchTema';
 
 const InputCelular = React.lazy(() => import('../../components/Inputs/InputCelular'));
 const InputDataNascimento = React.lazy(() => import('../../components/Inputs/InputDataNascimento'));
@@ -28,6 +31,7 @@ export default function Clientes(): React.JSX.Element {
 
   const [carregando, setCarregando] = useState<Boolean>(true);
 
+  const [selecionarAlergia, setSelecionarAlergia] = useState<Boolean>(false);
   const [listaCorCabelo, setListaCorCabelo] = useState<SelectItens[]>([]);
   const [listaTipoRaiz, setListaTipoRaiz] = useState<SelectItens[]>([]);
   const [listaCurvatura, setListaCurvatura] = useState<SelectItens[]>([]);
@@ -39,9 +43,9 @@ export default function Clientes(): React.JSX.Element {
     { name: 'celular', label: 'Celular', tipo: 'celular', visivel: false },
     { name: 'cidade', label: 'Cidade', tipo: 'texto', visivel: false },
     { name: 'endereco', label: 'Endereço', tipo: 'texto', visivel: false },
-    { name: 'corCabeloNatural', label: 'Cor de cabelo natural', tipo: 'select', itens: listaCorCabelo, visivel: false },
-    { name: 'curvaturaNatural', label: 'Curvatura natural', tipo: 'select', itens: listaCurvatura, visivel: false },
-    { name: 'tipoRaiz', label: 'Tipo de raiz', tipo: 'select', itens: listaTipoRaiz, visivel: false },
+    { name: 'corCabeloNatural', label: 'Cor de cabelo natural', tipo: 'select', itens: [], visivel: false },
+    { name: 'curvaturaNatural', label: 'Curvatura natural', tipo: 'select', itens: [], visivel: false },
+    { name: 'tipoRaiz', label: 'Tipo de raiz', tipo: 'select', itens: [], visivel: false },
   ]);
 
   const [alterandoConfiguracoes, setAlterandoConfiguracoes] = useState<Boolean>(false)
@@ -109,10 +113,10 @@ export default function Clientes(): React.JSX.Element {
   ), [camposVisiveis]);
 
   useEffect(() => {
-    getCoresCabeloNatural(setListaCorCabelo);
-    getTipoRaiz(setListaTipoRaiz);
-    getCurvaturaCabeloNatural(setListaCurvatura);
     getCamposVisiveisClientes(verificarCamposVisiveis);
+    // getCoresCabeloNatural(setListaCorCabelo);
+    // getTipoRaiz(setListaTipoRaiz);
+    // getCurvaturaCabeloNatural(setListaCurvatura);    
     getAlergias(setListaAlergia);
     navigation.addListener('focus', function () {
       buscarCamposVisiveis()
@@ -126,24 +130,66 @@ export default function Clientes(): React.JSX.Element {
   }, [])
 
   useEffect(() => {
+    if (camposVisiveis.length) {
+      verificarCamposComDados()
+    }
+  }, [camposVisiveis])
+
+  const verificarCamposComDados = async () => {
+    try {
+      for (let index = 0; index < camposVisiveis.length; index++) {
+        //Verificar se algum campo visivel precisa de buscar dados no banco
+        if (camposVisiveis[index].tipo == 'select' && camposVisiveis[index].visivel && !camposVisiveis[index].itens?.length) {
+          switch (camposVisiveis[index].name) {
+            case 'corCabeloNatural':
+              await getCoresCabeloNatural((res: SelectItens[]) => atualizarCampoSelect(res, camposVisiveis[index].name))
+              break;
+            case 'curvaturaNatural':
+              console.log('chegou curvatura')
+              await getCurvaturaCabeloNatural((res: SelectItens[]) => atualizarCampoSelect(res, camposVisiveis[index].name))
+              break;
+            case 'tipoRaiz':
+              await getTipoRaiz((res: SelectItens[]) => atualizarCampoSelect(res, camposVisiveis[index].name))
+              break;
+          }
+        }
+
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const atualizarCampoSelect = async (dados: SelectItens[], name: string) => {
+    //Popular o campo select com os dados recebidos do banco
+    const listaAtual = [...camposVisiveis];
+    listaAtual[listaAtual.findIndex((item) => item.name == name)].itens = dados;
+    setCamposVisiveis(listaAtual);
+  }
+
+  useEffect(() => {
     setCarregando(false)
     console.log(listaAlergia)
   }, [listaAlergia])
 
   const verificarCamposVisiveis = (dados: any) => {
-    const camposAtuais = camposVisiveis;
+    try {
+      const camposAtuais = camposVisiveis.map((item) => item.itens!?.length > 0 ? {...item, itens: []} : item); //Limpar dados dos selects da memoria
 
-    setCamposVisiveis([])
-
-    for (let index = 0; index < Object.keys(dados).length; index++) {
-      const indexItem = camposAtuais.findIndex((item) => item.name == Object.keys(dados)[index]);
-      if (indexItem >= 0) {
-        camposAtuais[indexItem].visivel = Boolean(dados[Object.keys(dados)[index]])
+      setCamposVisiveis([])
+      //Verificar quais campos estão visiveis 
+      for (let index = 0; index < Object.keys(dados).length; index++) {
+        const indexItem = camposAtuais.findIndex((item) => item.name == Object.keys(dados)[index]);
+        if (indexItem >= 0) {
+          camposAtuais[indexItem].visivel = Boolean(dados[Object.keys(dados)[index]])
+        }
+  
       }
-
+  
+      setCamposVisiveis(camposAtuais);
+    } catch (error) {
+      console.log(error)
     }
-
-    setCamposVisiveis(camposAtuais);
   }
 
   const buscarCamposVisiveis = () => {
@@ -185,13 +231,15 @@ export default function Clientes(): React.JSX.Element {
     }
   }
 
+        
   return (
     <>
-      <Header tipo='menu' titulo='Clientes' componente={<S.Icone name='cog' />} handleClickComponente={handleClickConfiguracoes} />
-      <S.Container>
+      <Header tipo='menu' titulo='Clientes' componente={<SwitchTema />} handleClickComponente={handleClickConfiguracoes} />            
+      <S.Container>      
         <S.Titulo>Dados pessoais</S.Titulo>
 
-        <FlatList
+      <Button onPress={() => setSelecionarAlergia(true)}>Mostrar</Button>
+        {/* <FlatList
           scrollEnabled={false}
           data={camposVisiveis.filter((item) => item.visivel)}
           renderItem={renderItem}
@@ -200,47 +248,51 @@ export default function Clientes(): React.JSX.Element {
           numColumns={isTablet() ? 2 : 1}
           keyExtractor={(item, index) => index.toString()}
           style={{ flexGrow: 0 }}
-        />
+        /> */}
 
 
-        {!carregando &&
-          <View style={{ flex: 1 }}>
-            <S.Titulo>Alergias</S.Titulo>
-            <S.ContainerAdicionarAlergia>
-              <InputSelectChip itens={listaAlergia} label='Adicionar' onChange={(item) => handleClickAdicionarAlercia(item)} itensRemover={listaAlergiaSelecionada} />
-            </S.ContainerAdicionarAlergia>
+        {/* {!carregando &&
+          <>
+            <View style={{ flex: 1 }}>
+              <S.Titulo>Alergias</S.Titulo>
+              <S.ContainerAdicionarAlergia>
+                <InputSelectChip itens={listaAlergia} label='Adicionar' onChange={(item) => handleClickAdicionarAlercia(item)} itensRemover={listaAlergiaSelecionada} />
+              </S.ContainerAdicionarAlergia>
 
-            <FlatList
-              scrollEnabled={false}
-              data={listaAlergiaSelecionada}
-              renderItem={renderItemAlergia}
-              contentContainerStyle={{ gap: 10 }}
-              columnWrapperStyle={isTablet() && { gap: 15 }}
-              numColumns={isTablet() ? 3 : 1}
-              keyExtractor={(item, index) => index.toString()}
-              style={{ flexGrow: 0, marginTop: 10 }}
-            />
+              <FlatList
+                scrollEnabled={false}
+                data={listaAlergiaSelecionada}
+                renderItem={renderItemAlergia}
+                contentContainerStyle={{ gap: 10 }}
+                columnWrapperStyle={isTablet() && { gap: 15 }}
+                numColumns={isTablet() ? 3 : 1}
+                keyExtractor={(item, index) => index.toString()}
+                style={{ flexGrow: 0, marginTop: 10 }}
+              />
 
-            <S.Titulo>Alergias</S.Titulo>
-            <S.ContainerAdicionarAlergia>
-              <InputSelectChip itens={listaAlergia} label='Adicionar' onChange={(item) => handleClickAdicionarAlercia(item)} itensRemover={listaAlergiaSelecionada} />
-            </S.ContainerAdicionarAlergia>
+              <S.Titulo>Alergias</S.Titulo>
+              <S.ContainerAdicionarAlergia>
+                <InputSelectChip itens={listaAlergia} label='Adicionar' onChange={(item) => handleClickAdicionarAlercia(item)} itensRemover={listaAlergiaSelecionada} />
+              </S.ContainerAdicionarAlergia>
 
-            <FlatList
-              scrollEnabled={false}
-              data={listaAlergiaSelecionada}
-              renderItem={renderItemAlergia}
-              contentContainerStyle={{ gap: 10 }}
-              numColumns={isTablet() ? 3 : 1}
-              keyExtractor={(item, index) => index.toString()}
-              style={{ flexGrow: 0, marginTop: 10 }}
-            />
+              <FlatList
+                scrollEnabled={false}
+                data={listaAlergiaSelecionada}
+                renderItem={renderItemAlergia}
+                contentContainerStyle={{ gap: 10 }}
+                numColumns={isTablet() ? 3 : 1}
+                keyExtractor={(item, index) => index.toString()}
+                style={{ flexGrow: 0, marginTop: 10 }}
+              />
 
 
-          </View>
+            </View>
+          </>
 
-        }
+
+        } */}
       </S.Container>
+      {selecionarAlergia && <ModalSelecionarAlergias onRequestClone={() => setSelecionarAlergia(false)} />}      
     </>
 
   )

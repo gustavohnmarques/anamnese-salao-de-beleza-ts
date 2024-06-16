@@ -6,17 +6,6 @@ import { CamposVisiveisClientes } from '../../types/CamposVisiveisClientes.type'
 
 const db = SQLite.openDatabase({ name: DATABASE_NAME, createFromLocation: 1 }, () => { }, () => { });
 
-export const campos = [
-    { name: 'nome', label: 'Nome', tipo: 'texto'},
-    { name: 'dataNascimento', label: 'Data de nascimento', tipo: 'dataNascimento'},
-    { name: 'email', label: 'E-mail', tipo: 'texto'},
-    { name: 'celular', label: 'Celular', tipo: 'celular'},
-    { name: 'cidade', label: 'Cidade', tipo: 'texto'},
-    { name: 'endereco', label: 'Endereço', tipo: 'texto'},
-    { name: 'corCabeloNatural', label: 'Cor de cabelo natural', tipo: 'select'},
-    { name: 'curvaturaNatural', label: 'Curvatura natural', tipo: 'select'},
-    { name: 'tipoRaiz', label: 'Tipo de raiz', tipo: 'select'},
-]
 
 export async function getCoresCabeloNatural(FuncRetorno: Function) {
     try {

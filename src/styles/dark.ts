@@ -48,6 +48,10 @@ export default {
         iconeSwitchTema: '#373354',
 
         //Cards
-        fundoCard: 'rgba(87, 87, 87, 1)'
+        fundoCard: 'rgba(87, 87, 87, 1)',
+
+        //Modais de busca
+        textoModal: '#fff',
+        fundoModal: '#3f3f3f',
     }
 }

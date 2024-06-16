@@ -11,6 +11,7 @@ export type inputPadraoProps = {
     keyboardType: KeyboardTypeOptions,
     error?: boolean,
     refInput?: React.RefObject<TextInput>,
+    onFocus?: () => void,
 };
 
 
@@ -24,5 +25,6 @@ export type InputProps = {
     onChangeIcon?: (e: GestureResponderEvent) => void,
     error?: boolean,
     refInput?: React.RefObject<TextInput>,
-    disabled?: boolean
+    disabled?: boolean,
+    onFocus?: () => void,
 };
