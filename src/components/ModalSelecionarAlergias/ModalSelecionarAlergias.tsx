@@ -6,7 +6,6 @@ import { SelectChipProps, SelectItens, SelectProps } from '../../types/InputSele
 import { PorcentagemAlturaTela, PorcentagemLarguraTela } from '../../utils/PorcentagemTela';
 import { TamanhoFonte } from '../../utils/TamanhoFonte';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { getAlergias } from '../../pages/Clientes/useClientes';
 import Picker from 'react-native-picker-select';
 import { Button, FlatList, StyleSheet, View, Text } from 'react-native';
 import { useTheme } from '../../contexts/theme';
@@ -21,6 +20,8 @@ import InputTexto from '../Inputs/InputTexto';
 
 import Item from './components/Item';
 import Input from './components/Input';
+import { ScrollView } from 'react-native-gesture-handler';
+import { getAlergias } from '../../db/Alergia';
 
 
 type Props = {
@@ -33,6 +34,9 @@ export default function ModalSelecionarAlergias(props: Props) {
     const { getTheme } = useTheme();
 
     const [itensSelecionados, setItensSelecionados] = useState<number[]>([]);
+
+    //Search
+    const [searchText, setSearchText] = useState<string>('');
 
 
     // ref
@@ -52,7 +56,7 @@ export default function ModalSelecionarAlergias(props: Props) {
     const [listaAlergia, setListaAlergia] = useState<SelectItens[]>([]);
 
     const buscarDados = () => {
-        getAlergias(setListaAlergia);
+        getAlergias({function: setListaAlergia});
     }
 
     useEffect(() => {
@@ -64,7 +68,13 @@ export default function ModalSelecionarAlergias(props: Props) {
     }, [])
 
     useEffect(() => {
-        console.log(listaAlergia.length)
+        setListaAlergia([]);
+        getAlergias({function: setListaAlergia, search: searchText == '' ? '' : searchText});
+    }, [searchText])
+
+    useEffect(() => {
+        console.log("TA ATUALIZANDO ")
+        console.log(listaAlergia)
     }, [listaAlergia])
 
     const loader = () => {
@@ -74,8 +84,9 @@ export default function ModalSelecionarAlergias(props: Props) {
             </ContainerLoader>
         )
     }
-    
+
     const handleClickItem = (index: number) => {
+
         try {
             let lista = itensSelecionados;
 
@@ -91,21 +102,29 @@ export default function ModalSelecionarAlergias(props: Props) {
 
         }
     }
+    
+    const searchAlergia = (value: string) => {        
+        getAlergias({function: setListaAlergia, search: searchText == '' ? '' : searchText});
+    }
 
-    const renderItem = useCallback((item: any) => (
+    const renderItem = (item: any) => (
         <Item {...item.item} checked={itensSelecionados.includes(item.index)} handleClick={() => handleClickItem(item.index)} />
-    ), [listaAlergia]);
+    )
 
     const renderizarItens = () => {
         return (
             <ContainerLista>
-                <Input onFocus={() => bottomSheetModalRef.current?.snapToIndex(1)} />
-                <FlatList
-                    data={listaAlergia}
-                    renderItem={renderItem}
-                    contentContainerStyle={{ gap: 15 }}
-                    keyExtractor={(item, index) => index.toString()}
-                />
+                <Input label={'Pesquisar alergia'} value={searchText} onFocus={() => bottomSheetModalRef.current?.snapToIndex(1)} onChange={() => searchAlergia} />
+                    <ScrollView>
+                        <FlatList
+                            style={{paddingBottom: 10}}
+                            scrollEnabled={false}
+                            data={listaAlergia}
+                            renderItem={renderItem}
+                            contentContainerStyle={{ gap: 15 }}                            
+                            keyExtractor={(item, index) => index.toString()}
+                        />
+                    </ScrollView>                
             </ContainerLista>
         )
     }
@@ -117,12 +136,12 @@ export default function ModalSelecionarAlergias(props: Props) {
                     backgroundColor: getTheme().colors.background400,
                 }}
                 ref={bottomSheetModalRef}
-                index={1}
+                index={0}
                 snapPoints={snapPoints}
                 onChange={handleSheetChanges}
                 onDismiss={props.onRequestClone}
             >
-                {!listaAlergia.length ? loader() : renderizarItens()}
+                {renderizarItens()}
             </BottomSheetModal>
         </BottomSheetModalProvider>
     );

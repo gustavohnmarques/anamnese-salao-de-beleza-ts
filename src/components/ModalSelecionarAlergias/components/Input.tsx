@@ -1,38 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styled, { css } from "styled-components/native";
-import { Checkbox } from 'react-native-paper';
-import { TamanhoFonte } from "../../../utils/TamanhoFonte";
-import { PropsInput } from "../types";
-import { useTheme } from "../../../contexts/theme";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { object, string, number } from 'yup';
-import InputTexto from "../../Inputs/InputTexto";
+import { PropsInputSearchModal } from "../../../types/InputSearchModal.type";
+import { InputSearch } from "../../Inputs/InputSearch";
 
 
-export default function Input(props: PropsInput) {
+const debounce = (func: Function, delay: number) => {
+    let timeoutId: string | number | NodeJS.Timeout | undefined;
+  
+    return (...args: any) => {
+      clearTimeout(timeoutId);
+  
+      timeoutId = setTimeout(() => {
+        func.apply(this, args);
+      }, delay);
+    };
+  };
+  
+
+export default function Input(props: PropsInputSearchModal) {
+
+    const [searchTerm, setSearchTerm] = useState<string>("");
 
 
-    const formType = object({
-        pesquisar: string(),
-    })
+    const debouncedSearch = debounce(props.onChange(searchTerm), 500);
 
-    const { control, handleSubmit, reset, getValues, formState: { errors } } = useForm<any>({
-        resolver: yupResolver(formType),
-        defaultValues: {
-            pesquisar: '',
-        },
-    })
+    const handleSearch = (text: string) => {
+      setSearchTerm(text);      
+      debouncedSearch(text);
+    };
 
+    
     return (
         <ContainerInput>
-            <InputTexto control={control} name='pesquisar' label='Pesquisar' onFocus={props.onFocus} />
+            <InputSearch label={props.label} value={searchTerm} onChange={handleSearch} onFocus={props.onFocus} />
         </ContainerInput>
     )
 }
 
-const ContainerInput = styled.View`
-    ${({ theme }) => css`        
-        height: 80px;        
-    `}
+const ContainerInput = styled.View`        
+    height: 80px;            
 `
