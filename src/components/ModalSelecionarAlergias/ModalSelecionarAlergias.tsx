@@ -22,6 +22,7 @@ import Item from './components/Item';
 import Input from './components/Input';
 import { ScrollView } from 'react-native-gesture-handler';
 import { getAlergias } from '../../db/Alergia';
+import DefaultButton from '../Button/DefaultButton';
 
 
 type Props = {
@@ -43,12 +44,13 @@ export default function ModalSelecionarAlergias(props: Props) {
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
     // variables
-    const snapPoints = useMemo(() => ['50%', '80%'], []);
+    const snapPoints = useMemo(() => ['90%'], []);
 
     // callbacks
     const handlePresentModalPress = useCallback(() => {
         bottomSheetModalRef.current?.present();
     }, []);
+
     const handleSheetChanges = useCallback((index: number) => {
         console.log('handleSheetChanges', index);
     }, []);
@@ -56,7 +58,7 @@ export default function ModalSelecionarAlergias(props: Props) {
     const [listaAlergia, setListaAlergia] = useState<SelectItens[]>([]);
 
     const buscarDados = () => {
-        getAlergias({function: setListaAlergia});
+        getAlergias({ function: setListaAlergia });
     }
 
     useEffect(() => {
@@ -69,12 +71,12 @@ export default function ModalSelecionarAlergias(props: Props) {
 
     useEffect(() => {
         setListaAlergia([]);
-        getAlergias({function: setListaAlergia, search: searchText == '' ? '' : searchText});
+        getAlergias({ function: setListaAlergia, search: searchText == '' ? '' : searchText });
     }, [searchText])
 
     useEffect(() => {
-
-    }, [listaAlergia])
+        console.log(itensSelecionados)
+    }, [itensSelecionados])
 
     const loader = () => {
         return (
@@ -98,13 +100,13 @@ export default function ModalSelecionarAlergias(props: Props) {
 
             setItensSelecionados(lista);
         } catch (error) {
-
+            console.error(error)
         }
     }
-    
-    const searchAlergia = (searchText: string) => {    
-        console.log('TA BUSCANDO AQUI', searchText)    
-        getAlergias({function: setListaAlergia, search: searchText == '' ? '' : searchText});
+
+    const searchAlergia = (searchText: string) => {
+        console.log('TA BUSCANDO AQUI', searchText)
+        getAlergias({ function: setListaAlergia, search: searchText == '' ? '' : searchText });
     }
 
     const renderItem = (item: any) => (
@@ -114,17 +116,21 @@ export default function ModalSelecionarAlergias(props: Props) {
     const renderizarItens = () => {
         return (
             <ContainerLista>
-                <Input label={'Pesquisar alergia'} value={searchText} onFocus={() => bottomSheetModalRef.current?.snapToIndex(1)} onChange={(searchText: string) => searchAlergia(searchText)} />
-                    <ScrollView>
-                        <FlatList
-                            style={{paddingBottom: 10}}
-                            scrollEnabled={false}
-                            data={listaAlergia}
-                            renderItem={renderItem}
-                            contentContainerStyle={{ gap: 15 }}                            
-                            keyExtractor={(item, index) => index.toString()}
-                        />
-                    </ScrollView>                
+                <Input label={'Pesquisar alergia'} value={searchText} onChange={(searchText: string) => searchAlergia(searchText)} />
+                <ScrollView>
+                    <FlatList
+                        style={{ paddingBottom: 10 }}
+                        scrollEnabled={false}
+                        data={listaAlergia}
+                        renderItem={renderItem}
+                        contentContainerStyle={{ gap: 15 }}
+                        keyExtractor={(item, index) => index.toString()}
+                    />
+                </ScrollView>
+                <ContainerBotao>
+                    <DefaultButton type='primary' text='Confirmar' onPress={() => {}} />
+                </ContainerBotao>
+
             </ContainerLista>
         )
     }
@@ -161,6 +167,14 @@ const ContainerLista = styled.View`
         display: flex;
         flex: 1;        
         padding: 20px;        
+    `}
+`
+
+const ContainerBotao = styled.View`
+    ${({ theme }) => css`
+        padding-top: 10px;
+        width: 100%;
+        height: ${PorcentagemAlturaTela(7)}
     `}
 `
 
