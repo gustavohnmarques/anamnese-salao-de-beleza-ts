@@ -1,20 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
-import styled, { css } from "styled-components/native";
+import React, { useCallback, useEffect, useState } from "react";
+import styled from "styled-components/native";
 import { PropsInputSearchModal } from "../../../types/InputSearchModal.type";
 import { InputSearch } from "../../Inputs/InputSearch";
-
-
-const debounce = (func: Function, delay: number) => {
-    let timeoutId: string | number | NodeJS.Timeout | undefined;
-  
-    return (...args: any) => {
-      clearTimeout(timeoutId);
-  
-      timeoutId = setTimeout(() => {
-        func.apply(this, args);
-      }, delay);
-    };
-  };
+import {debounce} from 'lodash';
   
 
 export default function Input(props: PropsInputSearchModal) {
@@ -22,17 +10,22 @@ export default function Input(props: PropsInputSearchModal) {
     const [searchTerm, setSearchTerm] = useState<string>("");
 
 
-    const debouncedSearch = debounce(props.onChange(searchTerm), 500);
-
-    const handleSearch = (text: string) => {
-      setSearchTerm(text);      
-      debouncedSearch(text);
+    const handler = useCallback(debounce(text => {
+      props.onChange(text)
+    }, 500), []);
+  
+    const handleChange = (text: string) => {
+      setSearchTerm(text);
     };
+
+    useEffect(() => {
+      handler(searchTerm);
+    }, [searchTerm])
 
     
     return (
         <ContainerInput>
-            <InputSearch label={props.label} value={searchTerm} onChange={handleSearch} onFocus={props.onFocus} />
+            <InputSearch label={props.label} value={searchTerm} onChange={handleChange} onFocus={props.onFocus} />
         </ContainerInput>
     )
 }

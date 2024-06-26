@@ -73,8 +73,7 @@ export default function ModalSelecionarAlergias(props: Props) {
     }, [searchText])
 
     useEffect(() => {
-        console.log("TA ATUALIZANDO ")
-        console.log(listaAlergia)
+
     }, [listaAlergia])
 
     const loader = () => {
@@ -103,7 +102,8 @@ export default function ModalSelecionarAlergias(props: Props) {
         }
     }
     
-    const searchAlergia = (value: string) => {        
+    const searchAlergia = (searchText: string) => {    
+        console.log('TA BUSCANDO AQUI', searchText)    
         getAlergias({function: setListaAlergia, search: searchText == '' ? '' : searchText});
     }
 
@@ -114,7 +114,7 @@ export default function ModalSelecionarAlergias(props: Props) {
     const renderizarItens = () => {
         return (
             <ContainerLista>
-                <Input label={'Pesquisar alergia'} value={searchText} onFocus={() => bottomSheetModalRef.current?.snapToIndex(1)} onChange={() => searchAlergia} />
+                <Input label={'Pesquisar alergia'} value={searchText} onFocus={() => bottomSheetModalRef.current?.snapToIndex(1)} onChange={(searchText: string) => searchAlergia(searchText)} />
                     <ScrollView>
                         <FlatList
                             style={{paddingBottom: 10}}
