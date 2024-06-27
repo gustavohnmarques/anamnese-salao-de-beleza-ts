@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { PropsInputSearchModal } from "../../../types/InputSearchModal.type";
-import { InputSearch } from "../../Inputs/InputSearch";
+import { InputSearch } from "../../inputs/InputSearch";
 import {debounce} from 'lodash';
   
 

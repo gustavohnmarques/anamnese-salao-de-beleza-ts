@@ -100,9 +100,10 @@ export default function ModalSelecionarAlergias(props: Props) {
             if (selectedItems.findIndex(i => i.id == item.item.value) >= 0) {
                 items = selectedItems.filter(i => i.id != item.item.value);
             } else {
-                items.push({id: item.item.value, label: item.item.label});
+                items.push({ id: item.item.value, label: item.item.label });
             }
 
+            console.log('aqui fio')
             setSelectedItems(items)
         } catch (error) {
             console.error(error)
@@ -123,25 +124,27 @@ export default function ModalSelecionarAlergias(props: Props) {
             <ContainerLista>
 
                 <Input label={'Pesquisar alergia'} value={searchText} onChange={(searchText: string) => searchAlergia(searchText)} />
-                {selectedItems.length > 0 && <ChipsList items={selectedItems} onClose={() => {}} />}
-                <Text>{selectedItems.length}</Text>
+                <ChipsList key={selectedItems.length} items={selectedItems} onClose={() => { }} />
+
                 <ContainerItem>
                     <ScrollView>
-                        <FlatList
-                            style={{ paddingBottom: 10 }}
-                            scrollEnabled={false}
-                            data={listaAlergia}
-                            renderItem={renderItem}
-                            contentContainerStyle={{ gap: 15 }}
-                            keyExtractor={(item) => item.value}
-                        />
+                        {!listaAlergia.length ? loader() :
+                            <FlatList
+                                style={{ paddingBottom: 10 }}
+                                scrollEnabled={false}
+                                data={listaAlergia}
+                                renderItem={renderItem}
+                                contentContainerStyle={{ gap: 15 }}
+                                keyExtractor={(item) => item.value}
+                            />
+                        }
+
                     </ScrollView>
                 </ContainerItem>
 
                 <ContainerBotao>
                     <DefaultButton type='primary' text='Confirmar' onPress={() => { }} />
                 </ContainerBotao>
-              
 
 
             </ContainerLista>
