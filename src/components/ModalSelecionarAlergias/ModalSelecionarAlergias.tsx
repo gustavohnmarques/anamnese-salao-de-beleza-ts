@@ -23,6 +23,9 @@ import Input from './components/Input';
 import { ScrollView } from 'react-native-gesture-handler';
 import { getAlergias } from '../../db/Alergia';
 import DefaultButton from '../Button/DefaultButton';
+import ChipsList from '../ChipsList/ChipsList';
+import { ChipsListItems } from '../ChipsList/types';
+const ChipList = React.lazy(() => import('../../components/ChipsList/ChipsList'));
 
 
 type Props = {
@@ -61,6 +64,8 @@ export default function ModalSelecionarAlergias(props: Props) {
         getAlergias({ function: setListaAlergia });
     }
 
+    const [selectedItems, setSelectedItems] = useState<ChipsListItems[]>([]);
+
     useEffect(() => {
         bottomSheetModalRef.current?.present();
         setTimeout(() => {
@@ -86,19 +91,19 @@ export default function ModalSelecionarAlergias(props: Props) {
         )
     }
 
-    const handleClickItem = (index: number) => {
+    const handleClickItem = (item: any) => {
 
         try {
-            let lista = itensSelecionados;
+            let items = selectedItems;
 
             //Verificar se o item já está na lista
-            if (itensSelecionados.includes(index)) {
-                lista = itensSelecionados.filter((item: number) => item != index);
+            if (selectedItems.findIndex(i => i.id == item.item.value) >= 0) {
+                items = selectedItems.filter(i => i.id != item.item.value);
             } else {
-                lista.push(index);
+                items.push({id: item.item.value, label: item.item.label});
             }
 
-            setItensSelecionados(lista);
+            setSelectedItems(items)
         } catch (error) {
             console.error(error)
         }
@@ -110,26 +115,34 @@ export default function ModalSelecionarAlergias(props: Props) {
     }
 
     const renderItem = (item: any) => (
-        <Item {...item.item} checked={itensSelecionados.includes(item.index)} handleClick={() => handleClickItem(item.index)} />
+        <Item {...item.item} checked={itensSelecionados.includes(item.index)} handleClick={() => handleClickItem(item)} />
     )
 
     const renderizarItens = () => {
         return (
             <ContainerLista>
+
                 <Input label={'Pesquisar alergia'} value={searchText} onChange={(searchText: string) => searchAlergia(searchText)} />
-                <ScrollView>
-                    <FlatList
-                        style={{ paddingBottom: 10 }}
-                        scrollEnabled={false}
-                        data={listaAlergia}
-                        renderItem={renderItem}
-                        contentContainerStyle={{ gap: 15 }}
-                        keyExtractor={(item, index) => index.toString()}
-                    />
-                </ScrollView>
+                {selectedItems.length > 0 && <ChipsList items={selectedItems} onClose={() => {}} />}
+                <Text>{selectedItems.length}</Text>
+                <ContainerItem>
+                    <ScrollView>
+                        <FlatList
+                            style={{ paddingBottom: 10 }}
+                            scrollEnabled={false}
+                            data={listaAlergia}
+                            renderItem={renderItem}
+                            contentContainerStyle={{ gap: 15 }}
+                            keyExtractor={(item) => item.value}
+                        />
+                    </ScrollView>
+                </ContainerItem>
+
                 <ContainerBotao>
-                    <DefaultButton type='primary' text='Confirmar' onPress={() => {}} />
+                    <DefaultButton type='primary' text='Confirmar' onPress={() => { }} />
                 </ContainerBotao>
+              
+
 
             </ContainerLista>
         )
@@ -167,6 +180,13 @@ const ContainerLista = styled.View`
         display: flex;
         flex: 1;        
         padding: 20px;        
+    `}
+`
+
+const ContainerItem = styled.View`
+    ${({ theme }) => css`
+        display: flex;
+        flex: 1;         
     `}
 `
 
