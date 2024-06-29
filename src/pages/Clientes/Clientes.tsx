@@ -13,15 +13,15 @@ import { ItemRemover, SelectItens } from '../../types/InputSelect.type';
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import { CamposVisiveisClientes } from '../../types/CamposVisiveisClientes.type';
 import { Button, Chip } from 'react-native-paper';
-import InputSelectChip from '../../components/inputs/InputSelectChip';
+import InputSelectChip from '../../components/Inputs/InputSelectChip';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ModalSelecionarAlergias from '../../components/ModalSelecionarAlergias/ModalSelecionarAlergias';
 import SwitchTema from '../../components/SwitchTema/SwitchTema';
 
-const InputCelular = React.lazy(() => import('../../components/inputs/InputCelular'));
-const InputDataNascimento = React.lazy(() => import('../../components/inputs/InputDataNascimento'));
-const InputTexto = React.lazy(() => import('../../components/inputs/InputTexto'));
-const InputSelect = React.lazy(() => import('../../components/inputs/InputSelect'));
+const InputCelular = React.lazy(() => import('../../components/Inputs/InputCelular'));
+const InputDataNascimento = React.lazy(() => import('../../components/Inputs/InputDataNascimento'));
+const InputTexto = React.lazy(() => import('../../components/Inputs/InputTexto'));
+const InputSelect = React.lazy(() => import('../../components/Inputs/InputSelect'));
 
 
 

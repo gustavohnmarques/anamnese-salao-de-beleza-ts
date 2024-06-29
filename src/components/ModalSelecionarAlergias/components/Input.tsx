@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { PropsInputSearchModal } from "../../../types/InputSearchModal.type";
-import { InputSearch } from "../../inputs/InputSearch";
+import { InputSearch } from "../../Inputs/InputSearch";
 import {debounce} from 'lodash';
   
 
 export default function Input(props: PropsInputSearchModal) {
 
-    const [searchTerm, setSearchTerm] = useState<string>("");
+    const [searchTerm, setSearchTerm] = useState<string | undefined>(undefined);
 
 
     const handler = useCallback(debounce(text => {
@@ -19,13 +19,15 @@ export default function Input(props: PropsInputSearchModal) {
     };
 
     useEffect(() => {
-      handler(searchTerm);
+      if(searchTerm != undefined){
+        handler(searchTerm);
+      }      
     }, [searchTerm])
 
     
     return (
         <ContainerInput>
-            <InputSearch label={props.label} value={searchTerm} onChange={handleChange} onFocus={props.onFocus} />
+            <InputSearch label={props.label} value={searchTerm!} onChange={handleChange} onFocus={props.onFocus} />
         </ContainerInput>
     )
 }

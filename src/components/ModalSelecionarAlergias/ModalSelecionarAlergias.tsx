@@ -1,100 +1,54 @@
-import React, { LegacyRef, RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Controller } from 'react-hook-form';
-import RNPickerSelect, { PickerSelectProps } from 'react-native-picker-select';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styled, { css } from "styled-components/native";
-import { SelectChipProps, SelectItens, SelectProps } from '../../types/InputSelect.type';
-import { PorcentagemAlturaTela, PorcentagemLarguraTela } from '../../utils/PorcentagemTela';
-import { TamanhoFonte } from '../../utils/TamanhoFonte';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import Picker from 'react-native-picker-select';
-import { Button, FlatList, StyleSheet, View, Text } from 'react-native';
+import { SelectItens } from '../../types/InputSelect.type';
+import { PorcentagemAlturaTela } from '../../utils/PorcentagemTela';
+import { FlatList } from 'react-native';
 import { useTheme } from '../../contexts/theme';
-import {
-    BottomSheetModal,
-    BottomSheetView,
-    BottomSheetModalProvider,
-    BottomSheetBackgroundProps,
-} from '@gorhom/bottom-sheet';
-import { ActivityIndicator } from 'react-native-paper';
-import InputTexto from '../Inputs/InputTexto';
-
-import Item from './components/Item';
-import Input from './components/Input';
+import { BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import { ScrollView } from 'react-native-gesture-handler';
 import { getAlergias } from '../../db/Alergia';
-import DefaultButton from '../Button/DefaultButton';
-import ChipsList from '../ChipsList/ChipsList';
 import { ChipsListItems } from '../ChipsList/types';
-const ChipList = React.lazy(() => import('../../components/ChipsList/ChipsList'));
+
+const ChipsList = React.lazy(() => import('../ChipsList/ChipsList'));
+const DefaultButton = React.lazy(() => import('../Button/DefaultButton'));
+const Item = React.lazy(() => import('./components/Item'));
+const Input = React.lazy(() => import('./components/Input'));
+const Loader = React.lazy(() => import('../Loader/Loader'));
 
 
 type Props = {
     onRequestClone?: () => void,
+    items?: number[],
 };
 
 
-export default function ModalSelecionarAlergias(props: Props) {
+export default function ModalSelecionarAlergias({ items = [], ...props}: Props) {
 
     const { getTheme } = useTheme();
 
-    const [itensSelecionados, setItensSelecionados] = useState<number[]>([]);
-
-    //Search
+    const [itensSelecionados, setItensSelecionados] = useState<number[]>(items);
     const [searchText, setSearchText] = useState<string>('');
-
-
-    // ref
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-
-    // variables
     const snapPoints = useMemo(() => ['90%'], []);
-
-    // callbacks
-    const handlePresentModalPress = useCallback(() => {
-        bottomSheetModalRef.current?.present();
-    }, []);
-
-    const handleSheetChanges = useCallback((index: number) => {
-        console.log('handleSheetChanges', index);
-    }, []);
-
     const [listaAlergia, setListaAlergia] = useState<SelectItens[]>([]);
+    const [selectedItems, setSelectedItems] = useState<ChipsListItems[]>([]);
+
+    useEffect(() => {
+        setTimeout(() => {            
+            bottomSheetModalRef.current?.present();
+            setTimeout(() => {
+                buscarDados();
+            }, 500);
+        }, 500);
+    }, [])
 
     const buscarDados = () => {
         getAlergias({ function: setListaAlergia });
     }
 
-    const [selectedItems, setSelectedItems] = useState<ChipsListItems[]>([]);
-
-    useEffect(() => {
-        bottomSheetModalRef.current?.present();
-        setTimeout(() => {
-            buscarDados();
-        }, 100);
-
-    }, [])
-
-    useEffect(() => {
-        setListaAlergia([]);
-        getAlergias({ function: setListaAlergia, search: searchText == '' ? '' : searchText });
-    }, [searchText])
-
-    useEffect(() => {
-        console.log(itensSelecionados)
-    }, [itensSelecionados])
-
-    const loader = () => {
-        return (
-            <ContainerLoader>
-                <ActivityIndicator animating={true} color={getTheme().colors.textoMenu} size={'large'} />
-            </ContainerLoader>
-        )
-    }
-
     const handleClickItem = (item: any) => {
-
         try {
-            let items = selectedItems;
+            let items = [...selectedItems];
 
             //Verificar se o item já está na lista
             if (selectedItems.findIndex(i => i.id == item.item.value) >= 0) {
@@ -102,8 +56,7 @@ export default function ModalSelecionarAlergias(props: Props) {
             } else {
                 items.push({ id: item.item.value, label: item.item.label });
             }
-
-            console.log('aqui fio')
+            
             setSelectedItems(items)
         } catch (error) {
             console.error(error)
@@ -111,7 +64,6 @@ export default function ModalSelecionarAlergias(props: Props) {
     }
 
     const searchAlergia = (searchText: string) => {
-        console.log('TA BUSCANDO AQUI', searchText)
         getAlergias({ function: setListaAlergia, search: searchText == '' ? '' : searchText });
     }
 
@@ -119,26 +71,32 @@ export default function ModalSelecionarAlergias(props: Props) {
         <Item {...item.item} checked={itensSelecionados.includes(item.index)} handleClick={() => handleClickItem(item)} />
     )
 
+    const removeItem = (id: number) => {
+        try {
+            const newList = selectedItems.filter(item => item.id != id)
+            setSelectedItems(newList)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     const renderizarItens = () => {
         return (
             <ContainerLista>
 
-                <Input label={'Pesquisar alergia'} value={searchText} onChange={(searchText: string) => searchAlergia(searchText)} />
-                <ChipsList key={selectedItems.length} items={selectedItems} onClose={() => { }} />
+                <Input label={'Pesquisar alergia'} value={searchText} onChange={searchAlergia} />
+                {selectedItems.length > 0 && <ChipsList items={selectedItems} onClose={removeItem} />}
 
                 <ContainerItem>
                     <ScrollView>
-                        {!listaAlergia.length ? loader() :
-                            <FlatList
-                                style={{ paddingBottom: 10 }}
-                                scrollEnabled={false}
-                                data={listaAlergia}
-                                renderItem={renderItem}
-                                contentContainerStyle={{ gap: 15 }}
-                                keyExtractor={(item) => item.value}
-                            />
-                        }
-
+                        <FlatList
+                            style={{ paddingBottom: 10 }}
+                            scrollEnabled={false}
+                            data={listaAlergia}
+                            renderItem={renderItem}
+                            contentContainerStyle={{ gap: 15 }}
+                            keyExtractor={(item) => item.value}
+                        />
                     </ScrollView>
                 </ContainerItem>
 
@@ -158,25 +116,16 @@ export default function ModalSelecionarAlergias(props: Props) {
                     backgroundColor: getTheme().colors.background400,
                 }}
                 ref={bottomSheetModalRef}
-                index={0}
+                index={0}                
                 snapPoints={snapPoints}
-                onChange={handleSheetChanges}
                 onDismiss={props.onRequestClone}
             >
-                {renderizarItens()}
+                {!listaAlergia.length ? <Loader /> : renderizarItens()}
             </BottomSheetModal>
         </BottomSheetModalProvider>
     );
 }
 
-const ContainerLoader = styled(BottomSheetView)`
-    ${({ theme }) => css`
-        display: flex;
-        flex: 1;
-        align-items: center;
-        justify-content: center;        
-    `}
-`
 
 const ContainerLista = styled.View`
     ${({ theme }) => css`

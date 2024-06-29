@@ -5,7 +5,7 @@ import { object, boolean } from 'yup';
 import { ConfigUser, Props } from './types';
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import InputSwitch from '../../../components/inputs/InputSwitch';
+import InputSwitch from '../../../components/Inputs/InputSwitch';
 import Header from '../../../components/Header/Header';
 import { getCamposVisiveisClientes, updateCampoVisivelClientes } from './useCamposInvisiveis';
 import { CamposClientes } from '../../../types/CamposVisiveisClientes.type';
