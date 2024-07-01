@@ -2,10 +2,9 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styled, { css } from "styled-components/native";
 import { SelectItens } from '../../types/InputSelect.type';
 import { PorcentagemAlturaTela } from '../../utils/PorcentagemTela';
-import { FlatList } from 'react-native';
+import { FlatList, ScrollView } from 'react-native';
 import { useTheme } from '../../contexts/theme';
 import { BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
-import { ScrollView } from 'react-native-gesture-handler';
 import { getAlergias } from '../../db/Alergia';
 import { ChipsListItems } from '../ChipsList/types';
 
@@ -18,20 +17,20 @@ const Loader = React.lazy(() => import('../Loader/Loader'));
 
 type Props = {
     onRequestClone?: () => void,
-    items?: number[],
+    items?: ChipsListItems[],
+    onConfirm: (data: ChipsListItems[]) => void
 };
 
 
 export default function ModalSelecionarAlergias({ items = [], ...props}: Props) {
 
     const { getTheme } = useTheme();
-
-    const [itensSelecionados, setItensSelecionados] = useState<number[]>(items);
+    
     const [searchText, setSearchText] = useState<string>('');
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
     const snapPoints = useMemo(() => ['90%'], []);
     const [listaAlergia, setListaAlergia] = useState<SelectItens[]>([]);
-    const [selectedItems, setSelectedItems] = useState<ChipsListItems[]>([]);
+    const [selectedItems, setSelectedItems] = useState<ChipsListItems[]>(items);
 
     useEffect(() => {
         setTimeout(() => {            
@@ -68,7 +67,7 @@ export default function ModalSelecionarAlergias({ items = [], ...props}: Props) 
     }
 
     const renderItem = (item: any) => (
-        <Item {...item.item} checked={itensSelecionados.includes(item.index)} handleClick={() => handleClickItem(item)} />
+        <Item {...item.item} checked={selectedItems.findIndex((i) => i.id == item.item.value) >= 0} handleClick={() => handleClickItem(item)} />
     )
 
     const removeItem = (id: number) => {
@@ -101,7 +100,7 @@ export default function ModalSelecionarAlergias({ items = [], ...props}: Props) 
                 </ContainerItem>
 
                 <ContainerBotao>
-                    <DefaultButton type='primary' text='Confirmar' onPress={() => { }} />
+                    <DefaultButton type='primary' text='Confirmar' onPress={() => props.onConfirm(selectedItems)} />
                 </ContainerBotao>
 
 
@@ -146,7 +145,7 @@ const ContainerBotao = styled.View`
     ${({ theme }) => css`
         padding-top: 10px;
         width: 100%;
-        height: ${PorcentagemAlturaTela(7)}
+        height: ${PorcentagemAlturaTela(7)}px;
     `}
 `
 

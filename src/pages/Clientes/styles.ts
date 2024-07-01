@@ -41,6 +41,7 @@ export const ContainerLoader = styled.View`
 export const ContainerAdicionarAlergia = styled.View`
     ${({ theme }) => css`
         width: ${PorcentagemLarguraTela(isTablet() ? 22 : 32)}px;
+        margin-bottom: 10px;
     `}
 `
 

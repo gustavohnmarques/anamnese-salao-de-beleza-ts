@@ -17,6 +17,8 @@ import InputSelectChip from '../../components/Inputs/InputSelectChip';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ModalSelecionarAlergias from '../../components/ModalSelecionarAlergias/ModalSelecionarAlergias';
 import SwitchTema from '../../components/SwitchTema/SwitchTema';
+import { ChipsListItems } from '../../components/ChipsList/types';
+import ChipsList from '../../components/ChipsList/ChipsList';
 
 const InputCelular = React.lazy(() => import('../../components/Inputs/InputCelular'));
 const InputDataNascimento = React.lazy(() => import('../../components/Inputs/InputDataNascimento'));
@@ -54,6 +56,8 @@ export default function Clientes(): React.JSX.Element {
     alterandoConfiguracoesRef.current = data;
     setAlterandoConfiguracoes(data);
   };
+
+  const [selectedItemsAlergia, setSelectedItemsAlergia] = useState<ChipsListItems[]>([])
 
   //Alergias selecionadas
   const [listaAlergiaSelecionada, setListaAlergiaSelecionada] = useState<number[]>([]);
@@ -174,7 +178,7 @@ export default function Clientes(): React.JSX.Element {
 
   const verificarCamposVisiveis = (dados: any) => {
     try {
-      const camposAtuais = camposVisiveis.map((item) => item.itens!?.length > 0 ? {...item, itens: []} : item); //Limpar dados dos selects da memoria
+      const camposAtuais = camposVisiveis.map((item) => item.itens!?.length > 0 ? { ...item, itens: [] } : item); //Limpar dados dos selects da memoria
 
       setCamposVisiveis([])
       //Verificar quais campos estão visiveis 
@@ -183,9 +187,9 @@ export default function Clientes(): React.JSX.Element {
         if (indexItem >= 0) {
           camposAtuais[indexItem].visivel = Boolean(dados[Object.keys(dados)[index]])
         }
-  
+
       }
-  
+
       setCamposVisiveis(camposAtuais);
     } catch (error) {
       console.log(error)
@@ -231,14 +235,23 @@ export default function Clientes(): React.JSX.Element {
     }
   }
 
-        
+  const handleClickConfirmModalAlergias = (items: ChipsListItems[]) => {
+    setSelectedItemsAlergia(items);
+    setSelecionarAlergia(false)
+  }
+
+  const handleClickDeleteAlergia = (id: number) => {
+    const newList = selectedItemsAlergia.filter(item => item.id != id)
+    setSelectedItemsAlergia(newList)
+  }
+
+
   return (
     <>
-      <Header tipo='menu' titulo='Clientes' componente={<SwitchTema />} handleClickComponente={handleClickConfiguracoes} />            
-      <S.Container>      
+      <Header tipo='menu' titulo='Clientes' componente={<SwitchTema />} handleClickComponente={handleClickConfiguracoes} />
+      <S.Container>
         <S.Titulo>Dados pessoais</S.Titulo>
 
-      <Button onPress={() => setSelecionarAlergia(true)}>Mostrar</Button>
         {/* <FlatList
           scrollEnabled={false}
           data={camposVisiveis.filter((item) => item.visivel)}
@@ -251,48 +264,25 @@ export default function Clientes(): React.JSX.Element {
         /> */}
 
 
-        {/* {!carregando &&
+        {!carregando &&
           <>
             <View style={{ flex: 1 }}>
               <S.Titulo>Alergias</S.Titulo>
-              <S.ContainerAdicionarAlergia>
-                <InputSelectChip itens={listaAlergia} label='Adicionar' onChange={(item) => handleClickAdicionarAlercia(item)} itensRemover={listaAlergiaSelecionada} />
+              <S.ContainerAdicionarAlergia>                
+                <Button icon="plus" mode="contained" onPress={() => setSelecionarAlergia(true)}>
+                  Adicionar
+                </Button>
               </S.ContainerAdicionarAlergia>
 
-              <FlatList
-                scrollEnabled={false}
-                data={listaAlergiaSelecionada}
-                renderItem={renderItemAlergia}
-                contentContainerStyle={{ gap: 10 }}
-                columnWrapperStyle={isTablet() && { gap: 15 }}
-                numColumns={isTablet() ? 3 : 1}
-                keyExtractor={(item, index) => index.toString()}
-                style={{ flexGrow: 0, marginTop: 10 }}
-              />
-
-              <S.Titulo>Alergias</S.Titulo>
-              <S.ContainerAdicionarAlergia>
-                <InputSelectChip itens={listaAlergia} label='Adicionar' onChange={(item) => handleClickAdicionarAlercia(item)} itensRemover={listaAlergiaSelecionada} />
-              </S.ContainerAdicionarAlergia>
-
-              <FlatList
-                scrollEnabled={false}
-                data={listaAlergiaSelecionada}
-                renderItem={renderItemAlergia}
-                contentContainerStyle={{ gap: 10 }}
-                numColumns={isTablet() ? 3 : 1}
-                keyExtractor={(item, index) => index.toString()}
-                style={{ flexGrow: 0, marginTop: 10 }}
-              />
-
+              {selectedItemsAlergia.length > 0 && <ChipsList items={selectedItemsAlergia} onClose={handleClickDeleteAlergia} />}
 
             </View>
           </>
 
 
-        } */}
+        }
       </S.Container>
-      {selecionarAlergia && <ModalSelecionarAlergias onRequestClone={() => setSelecionarAlergia(false)} />}      
+      {selecionarAlergia && <ModalSelecionarAlergias onRequestClone={() => setSelecionarAlergia(false)} onConfirm={handleClickConfirmModalAlergias} items={selectedItemsAlergia} />}
     </>
 
   )
